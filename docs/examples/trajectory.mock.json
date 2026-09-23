@@ -1,0 +1,178 @@
+{
+  "current_skills": {
+    "SK_PYTHON": 3,
+    "SK_SQL": 2,
+    "SK_API_DESIGN": 2,
+    "SK_SYSTEM_DESIGN": 1,
+    "SK_CLOUD": 1,
+    "SK_CONTAINERS": 0,
+    "SK_CICD": 1,
+    "SK_APP_SECURITY": 1,
+    "SK_OBSERVABILITY": 0,
+    "SK_COMMUNICATION": 2,
+    "SK_PUBLIC_SPEAKING": 0,
+    "SK_WRITTEN_COMMUNICATION": 3,
+    "SK_STAKEHOLDER_MGMT": 1,
+    "SK_LEADERSHIP": 1,
+    "SK_MENTORING": 0,
+    "SK_FEEDBACK": 2,
+    "SK_CONFLICT_RESOLUTION": 3,
+    "SK_TEAMWORK": 2,
+    "SK_EMOTIONAL_INTELLIGENCE": 2,
+    "SK_PROBLEM_SOLVING": 2,
+    "SK_CRITICAL_THINKING": 3,
+    "SK_TIME_MANAGEMENT": 2,
+    "SK_ADAPTABILITY": 2
+  },
+  "employee_id": "E0001",
+  "as_of_date": "2026-10-01",
+  "assessed_on": "2026-09-11",
+  "mode": "mock",
+  "skills_basis": "current",
+  "target": {
+    "target_role": "Backend Engineer",
+    "target_grade": "Middle"
+  },
+  "status": "target_set",
+  "requirements": [
+    {
+      "skill_id": "SK_API_DESIGN",
+      "name": "API Design",
+      "type": "hard",
+      "current_level": 2,
+      "required_level": 3,
+      "gap": 1,
+      "critical": true
+    },
+    {
+      "skill_id": "SK_CONTAINERS",
+      "name": "Containers & Orchestration",
+      "type": "hard",
+      "current_level": 0,
+      "required_level": 2,
+      "gap": 2,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_OBSERVABILITY",
+      "name": "Observability",
+      "type": "hard",
+      "current_level": 0,
+      "required_level": 2,
+      "gap": 2,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_APP_SECURITY",
+      "name": "Application Security",
+      "type": "hard",
+      "current_level": 1,
+      "required_level": 2,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_CICD",
+      "name": "CI/CD",
+      "type": "hard",
+      "current_level": 1,
+      "required_level": 2,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_CLOUD",
+      "name": "Cloud Platforms",
+      "type": "hard",
+      "current_level": 1,
+      "required_level": 2,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_COMMUNICATION",
+      "name": "Communication",
+      "type": "soft",
+      "current_level": 2,
+      "required_level": 3,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_MENTORING",
+      "name": "Mentoring",
+      "type": "soft",
+      "current_level": 0,
+      "required_level": 1,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_PROBLEM_SOLVING",
+      "name": "Problem Solving",
+      "type": "soft",
+      "current_level": 2,
+      "required_level": 3,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_PUBLIC_SPEAKING",
+      "name": "Public Speaking",
+      "type": "soft",
+      "current_level": 0,
+      "required_level": 1,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_SQL",
+      "name": "SQL",
+      "type": "hard",
+      "current_level": 2,
+      "required_level": 3,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_SYSTEM_DESIGN",
+      "name": "System Design",
+      "type": "hard",
+      "current_level": 1,
+      "required_level": 2,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_TEAMWORK",
+      "name": "Teamwork",
+      "type": "soft",
+      "current_level": 2,
+      "required_level": 3,
+      "gap": 1,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_PYTHON",
+      "name": "Python",
+      "type": "hard",
+      "current_level": 3,
+      "required_level": 3,
+      "gap": 0,
+      "critical": true
+    },
+    {
+      "skill_id": "SK_STAKEHOLDER_MGMT",
+      "name": "Stakeholder Management",
+      "type": "soft",
+      "current_level": 1,
+      "required_level": 1,
+      "gap": 0,
+      "critical": false
+    }
+  ],
+  "met_count": 2,
+  "critical_gap_count": 1,
+  "progress_pct": null,
+  "message": "Учтены завершения после оценки. Если дата завершения неизвестна, используется дата записи истории. Общий прогресс не рассчитан."
+}
