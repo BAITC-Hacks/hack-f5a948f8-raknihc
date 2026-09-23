@@ -1,6 +1,6 @@
 """Integration boundary; production algorithms belong to app/engine/."""
 from typing import Protocol
-from .schemas import ActivityRequest, EngineContext, Mode, RecommendationResponse, SimulationResponse
+from .schemas import ActivityRequest, EngineContext, Mode, RecommendationResponse, SimulationResponse, TrajectoryResponse
 
 
 class DomainError(Exception):
@@ -15,3 +15,5 @@ class Engine(Protocol):
     def recommend(self, context: EngineContext) -> RecommendationResponse: ...
 
     def simulate(self, context: EngineContext, request: ActivityRequest) -> SimulationResponse: ...
+
+    def trajectory(self, context: EngineContext) -> TrajectoryResponse: ...

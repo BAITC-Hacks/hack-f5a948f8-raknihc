@@ -12,7 +12,7 @@
     "SK_CLOUD": 1,
     "SK_CONTAINERS": 0,
     "SK_CICD": 1,
-    "SK_APP_SECURITY": 0,
+    "SK_APP_SECURITY": 1,
     "SK_OBSERVABILITY": 0,
     "SK_COMMUNICATION": 2,
     "SK_PUBLIC_SPEAKING": 0,
@@ -32,12 +32,12 @@
   "skills_after": {
     "SK_PYTHON": 3,
     "SK_SQL": 2,
-    "SK_API_DESIGN": 2,
-    "SK_SYSTEM_DESIGN": 1,
+    "SK_API_DESIGN": 3,
+    "SK_SYSTEM_DESIGN": 2,
     "SK_CLOUD": 1,
     "SK_CONTAINERS": 0,
     "SK_CICD": 1,
-    "SK_APP_SECURITY": 0,
+    "SK_APP_SECURITY": 1,
     "SK_OBSERVABILITY": 0,
     "SK_COMMUNICATION": 2,
     "SK_PUBLIC_SPEAKING": 0,
@@ -56,5 +56,25 @@
   },
   "progress_before_pct": null,
   "progress_after_pct": null,
-  "message": "Mock: алгоритм AI ещё не подключён; навыки взяты из последней оценки, прогресс не рассчитан."
+  "message": "Ожидаемый прирост рассчитан по правилам мероприятия. Общий прогресс к цели пока не рассчитан.",
+  "skill_changes": [
+    {
+      "skill_id": "SK_SYSTEM_DESIGN",
+      "name": "System Design",
+      "before": 1,
+      "after": 2,
+      "gain": 1
+    },
+    {
+      "skill_id": "SK_API_DESIGN",
+      "name": "API Design",
+      "before": 2,
+      "after": 3,
+      "gain": 1
+    }
+  ],
+  "skills_basis": "current",
+  "assessed_on": "2026-09-11",
+  "is_fallback": false,
+  "fallback_reason": null
 }

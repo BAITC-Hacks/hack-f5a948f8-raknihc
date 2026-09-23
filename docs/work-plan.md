@@ -1,64 +1,79 @@
 # Career Quest work plan
 
-Status: AI Engine implemented and frozen; FastAPI/SQLite backend implemented with a
-mock engine. Full application/AI integration is still pending.
+Both participants' components are implemented. The AI Engine is frozen; FastAPI
+currently uses MockEngine. RealAIEngineAdapter and final integrated acceptance
+remain pending. Application status reflects commit 653c6a3.
+
+## Project setup
+
+- [x] Career Quest selection and mandatory requirements.
+- [x] GitHub repository and participant branches.
+- [x] Dataset analysis, relationships, constraints and documented ambiguities.
 
 ## Participant 1 - AI Engine
 
 Ownership: backend/app/engine/, tests/ and algorithm documentation; feat/ai-engine.
 
-- [x] Dataset analysis, relationships, constraints and documented ambiguities.
-- [x] JSON/CSV loading and Python support for new profiles in the supported schema.
-- [x] Current-skill reconstruction using last_review_date, gain and max_level.
-- [x] Gap analysis, critical skills, next grade and mapped career goals.
-- [x] Candidate filtering: role, grade, prerequisites, availability and completion history.
-- [x] Multifactor ranking and score_breakdown.
-- [x] Career Digital Twin with skills/readiness before-after simulation.
-- [x] WHY THIS / WHY NOT and Recommendation Critic.
-- [x] Optional LLM explanation with deterministic fallback.
-- [x] Jury/adversarial tests, date-boundary tests and JSON-serializable recommend entry point.
-- [ ] Full input-schema validation at the engine boundary; existing checks are partial.
+- [x] JSON/CSV loading and supported imported profiles.
+- [x] Current skill reconstruction after last_review_date using gain/max_level.
+- [x] Trajectory/gap engine, next-grade requirements, career targets and critical gaps.
+- [x] Eligibility: role, grade, prerequisites, availability and completion history.
+- [x] Deterministic multifactor ranking with score_breakdown.
+- [x] Career Digital Twin and skills/readiness before-after.
+- [x] WHY THIS / WHY NOT and independent-evidence Recommendation Critic.
+- [x] Optional OpenAI explanation and deterministic fallback.
+- [x] AI, jury/adversarial, review-date and JSON-serialization tests.
+- [x] Public recommend entry point and complete response example.
 
-AI suite: 48 tests passed before documentation-conflict resolution. No algorithm changes
-without agreement. Recommendations do not persist activity completions.
+The AI suite previously passed 48 tests. Tests were not rerun during this documentation
+resolution. Full import-schema validation remains the application's responsibility;
+engine boundary checks are partial. No algorithm changes without agreement.
 
-## Participant 2 - application layer
+## Participant 2 - application
 
-Ownership: FastAPI, SQLite, future frontend, HTTP contract, access control and startup.
-feat/app-ui is already included in main.
+Ownership: FastAPI, SQLite, frontend/, auth, HTTP contract and startup; feat/app-ui.
 
-- [x] FastAPI profile, history, catalog, mock recommendation, simulation and completion endpoints.
-- [x] SQLite storage of profiles, catalog, history and completion results.
-- [x] Validated transactional CLI import of the starter dataset.
-- [x] Idempotent completion and protection from duplicate/concurrent writes.
-- [x] Engine Protocol, mock and fresh database context for each engine call.
-- [x] Backend tests for imports, API errors, restart persistence and concurrency.
-- [ ] Real engine adapter and end-to-end HTTP progress updates.
-- [ ] React/frontend: employee view, trajectory, cards, loading/error/empty states.
-- [ ] HR dashboard and aggregates.
-- [ ] Server-side employee/HR access control.
-- [ ] Import of additional jury profiles/history into an existing database through the application.
-- [ ] One-command startup of the complete solution.
+- [x] FastAPI and SQLite: profiles, catalog, history, simulations and completions.
+- [x] Validated transactional CLI import of the original dataset.
+- [x] Employee/HR authentication, sessions and server-side access control.
+- [x] React + TypeScript + Vite frontend and employee dashboard.
+- [x] Skills, history, trajectory UI and critical gaps.
+- [x] Recommendation cards and loading/error/empty/fallback states.
+- [x] Simulation/completion workflow with refreshed data.
+- [x] Idempotency, duplicate/concurrent completion protection and club sessions.
+- [x] HR analytics: common gaps, employees without recommendations, participation.
+- [x] Additive jury JSON profiles / CSV history import with preview and atomic validation.
+- [x] Engine Protocol and MockEngine with reconstructed skills.
+- [x] Application and browser tests for implemented workflows.
+- [x] One-command Unix startup: install, build, import and serve through start.sh.
 
-CLI import into a new database is not completed jury import. Mock simulation does not
-award skill gains or prove an integrated AI completion flow.
+Mock still returns catalog-order recommendations and null readiness/score. Browser
+API fixtures do not prove real AI integration. The launcher uses .venv/bin/python;
+native Windows needs manual commands or a later portability fix.
 
-## Integration boundary
+## Remaining integration and acceptance
 
-Both contracts are preserved in docs/api-contract.md: HTTP API and Python AI Engine.
-The application expects Engine.recommend(context), while the engine exposes recommend
-with employee/history/events/catalog/as_of_date arguments. An application-layer adapter
-is required and is not part of this documentation resolution.
+- [ ] Connect FastAPI to the REAL AI Engine via RealAIEngineAdapter.
+- [ ] Map recommend(context), trajectory(context), simulate(context, request), including
+      current_skills, skill_changes, readiness and consistent target semantics.
+- [ ] Agree HTTP/UI exposure of WHY NOT, score_breakdown, critic and explanation_source.
+- [ ] Validate completed_at versus original history/session date without double gains.
+- [ ] Run final integrated E2E tests with real backend, AI Engine and frontend.
+- [ ] Validate final defense scenario, including jury profiles, HR and access denial.
+- [ ] Verify final README commands and submission materials.
 
-The engine owns skill/readiness calculations. The application owns database writes,
-transactions, idempotency, selected sessions and authorization. Date/completed_at
-semantics require integration tests. Initial integration uses use_llm=False.
+## Integration ownership and sequence
 
-## Next steps and acceptance criteria
+Both contracts are in docs/api-contract.md. The engine owns skill, gap, ranking and
+readiness calculations. The application owns authorization, transactions, idempotency,
+session selection, validation and persistence. Stored skills remain the review snapshot.
 
-1. Agree the HTTP/Python mapping and implement the adapter outside the frozen engine.
-2. Verify profile -> recommendation -> simulation -> completion -> refreshed progress.
-3. Test no double gains, session dates, self_paced and empty recommendation responses.
-4. Add employee UI, HR, access control and jury import; test denial of other employees' data.
-5. Run both test suites and document reproducible complete startup.
-6. Add optional mechanics only after the mandatory scenario works.
+1. Implement the adapter outside backend/app/engine/ using use_llm=False.
+2. Verify E0002, EV_005 and readiness 62 to 66 at the dataset snapshot.
+3. Verify recommendation -> simulation -> valid completion -> refreshed skills,
+   history, trajectory and recommendations, including duplicate/empty cases.
+4. Verify jury imports, date boundaries, employee isolation and HR aggregation.
+5. Run both Python suites, frontend build, browser tests and real integrated E2E.
+6. Verify optional LLM failure preserves deterministic selection and explanations;
+   avoid LLM calls per employee in HR aggregation.
+7. Validate the defense scenario and final README before submission.

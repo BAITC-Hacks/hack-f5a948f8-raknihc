@@ -6,8 +6,19 @@ import pytest
 from fastapi.testclient import TestClient
 
 from backend.app.config import Settings
+from backend.app.auth import Auth
 from backend.app.import_dataset import import_dataset
 from backend.app.main import create_app
+from backend.app.storage import Store
+
+TEST_PASSWORD = "test-only-password-2026"
+
+
+def sign_in(client, username="employee1"):
+    response = client.post("/api/v1/auth/login", json={"username": username, "password": TEST_PASSWORD})
+    assert response.status_code == 200, response.text
+    client.headers["Authorization"] = "Bearer " + response.json()["access_token"]
+    return response.json()
 
 
 @pytest.fixture
@@ -56,10 +67,15 @@ def dataset_dir(tmp_path):
 def settings(tmp_path, dataset_dir):
     config = Settings(db_path=tmp_path / "test.sqlite3", as_of_date=date(2026, 10, 1))
     import_dataset(dataset_dir, config.db_path)
+    auth = Auth(Store(config.db_path), config.session_ttl_seconds)
+    auth.create_user("employee1", TEST_PASSWORD, "employee", "TEST_1")
+    auth.create_user("employee2", TEST_PASSWORD, "employee", "TEST_2")
+    auth.create_user("hr", TEST_PASSWORD, "hr")
     return config
 
 
 @pytest.fixture
 def client(settings):
     with TestClient(create_app(settings)) as client:
+        sign_in(client)
         yield client

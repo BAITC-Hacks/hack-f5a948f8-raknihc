@@ -2,6 +2,9 @@
 
 ## 1. HTTP API Contract
 
+Source: application contract at `653c6a3`; exact models are in
+`backend/app/schemas.py`. This section describes the current application/MockEngine.
+
 Статус: первая реализация для `feat/app-ui`; контракт предложен для интеграции
 с участником AI engine. Источник точных типов — `backend/app/schemas.py`,
 машиночитаемая схема HTTP — `/openapi.json`. Префикс API — `/api/v1`.
@@ -18,7 +21,7 @@
 
 Расчётная дата берётся из `CQ_AS_OF_DATE` (по умолчанию `2026-10-01`).
 Реальное UTC-время записи и расчётная дата выполнения хранятся отдельно.
-Исходные файлы читаются только при явном запуске CLI импорта; каждый вызов
+Исходный каталог загружается через CLI; HR может добавлять профили и историю через API. Каждый вызов
 движка получает свежий снимок SQLite, включая новые выполнения.
 
 ### HTTP
@@ -26,20 +29,40 @@
 | Метод и путь | Результат |
 | --- | --- |
 | `GET /health` | Состояние БД, режим движка, дата среза |
+| `POST /api/v1/auth/login` | `{access_token, token_type, expires_at, user}`; тело `{username,password}` |
+| `GET /api/v1/auth/me` | `{user_id, username, role, employee_id}` |
+| `POST /api/v1/auth/logout` | 204, сессия отозвана |
+| `GET /api/v1/hr/summary` | Общие счётчики сотрудников, истории и выполнений; только HR |
+| `GET /api/v1/hr/overview` | `HROverview`: дефициты, сотрудники и статистика мероприятий; только HR |
+| `POST /api/v1/hr/imports` | `JuryImportResult`; строки `employees_json?`, `history_csv?`, флаг `dry_run` (по умолчанию true); только HR |
 | `GET /api/v1/employees?offset=0&limit=50` | `{items: Employee[], total, offset, limit}` |
 | `GET /api/v1/employees/{id}` | Профиль последней оценки |
 | `GET /api/v1/employees/{id}/history` | `{items: HistoryRecord[]}` |
 | `GET /api/v1/events` | `{items: Event[]}` |
 | `GET /api/v1/skills` | Каталог навыков и требования ролей |
 | `GET /api/v1/employees/{id}/recommendations` | `RecommendationResponse` |
+| `GET /api/v1/employees/{id}/trajectory` | `TrajectoryResponse`: требования цели и дефициты, доступ как к профилю |
 | `POST /api/v1/employees/{id}/simulations` | `SimulationResponse`; тело `{event_id, session_date?: date}` |
 | `POST /api/v1/employees/{id}/completions` | `CompletionResponse`; тело как у симуляции, обязателен заголовок `Idempotency-Key` |
 | `GET /api/v1/employees/{id}/completions` | `{items: Completion[]}` |
 
 Пагинация сотрудников: limit 1–200, offset >= 0. Неизвестные поля входных
 моделей запрещены. Ошибки: `{detail: {code, message}}`; ошибки схемы FastAPI —
-стандартный `detail[]` и HTTP 422. Неизвестный сотрудник/мероприятие — 404,
-невозможное выполнение/повтор — 409, недоступный движок — 503.
+стандартный `detail[]` и HTTP 422. Неизвестный доступный сотрудник/мероприятие — 404,
+невозможное выполнение/повтор — 409. Недоступный движок для preview вызывает
+описанный ниже fallback; при выполнении ошибка 503 сохраняется.
+
+Все `/api/v1` маршруты, кроме `/auth/login`, требуют `Authorization: Bearer <token>`.
+Нет действующей сессии — 401; нет прав — 403; превышен лимит входа — 429.
+Сотрудник читает/симулирует/выполняет только свой профиль. Подмена ID в URL
+блокируется до чтения данных и вызова движка (включая несуществующий чужой ID).
+HR читает все профили и симулирует активности, но завершает только свои, если
+его учётная запись привязана к профилю. Список сотрудников и все `/hr/*` — только HR.
+Каталоги доступны обеим ролям. [Полная матрица прав](access-control.md).
+
+Токены непрозрачные, живут по реальному UTC-времени. Frontend отправляет их
+в заголовке, сервер не использует авторизационные cookies. Поля роли и employee_id
+во входном теле login запрещены; права берутся из SQLite при каждом запросе.
 
 Первое выполнение — HTTP 201, повтор того же ключа и тела — HTTP 200 и
 сохранённый результат (`replayed: true`). Тот же ключ с другим телом — 409.
@@ -47,7 +70,7 @@
 Новый ключ для уже выполненного события — 409. Для `EV_036` повторы допустимы
 в разные даты сессий; одна сессия не выполняется дважды. Будущую сессию можно
 симулировать, но завершить можно только в расчётную дату этой сессии.
-Для `self_paced` `session_date` должен отсутствовать.
+Для `self_paced` `session_date` отсутствует или равен `null`.
 
 ### Интерфейс движка
 
@@ -55,39 +78,114 @@
 
 - `recommend(context: EngineContext) -> RecommendationResponse`
 - `simulate(context: EngineContext, request: ActivityRequest) -> SimulationResponse`
+- `trajectory(context: EngineContext) -> TrajectoryResponse`
 
 `EngineContext`: `profile`, `history`, `events`, `catalog`, `as_of_date`.
 Реальная реализация живёт в `backend/app/engine/`, приложение подключает её
 через `create_app(settings, engine=...)`. Движок не открывает SQLite и не пишет
-файлы. API не реализует формулы роста, дефицитов или ранжирования.
+файлы. HTTP-обработчики не реализуют формулы роста, дефицитов или ранжирования.
 
 `RecommendationResponse`: `employee_id`, `as_of_date`, `mode` (`mock`/`live`),
 `current_skills`, `progress_pct` (число или null), `items`, `message`.
 Карточка: `event_id`, `title`, `format`, `duration_hours`, `session_date`,
-`reasons[]`, `score` (число или null).
+`reasons[]`, `score` (число или null), `skill_changes[]`. Количество карточек — 0–3;
+пустой список означает отсутствие подходящих шагов, а не ошибку сервера.
 
 `SimulationResponse`: `employee_id`, `event_id`, `as_of_date`, `session_date`,
 `mode`, `skills_before`, `skills_after`, `progress_before_pct`,
-`progress_after_pct`, `message`. `Completion` хранит этот результат целиком
+`progress_after_pct`, `message`, `skill_changes[]`. `Completion` хранит этот результат целиком
 вместе с `completion_id`, `employee_id`, `event_id`, `session_date`,
 `completed_on`, `created_at`, `history_record_id`.
+
+Оба preview-ответа дополнительно содержат `skills_basis` (`last_review`/`current`),
+`assessed_on` (дата или null), `is_fallback` (по умолчанию false), `fallback_reason`
+(строка или null). `skill_changes[]`: `{skill_id, name, before, after, gain}` — уровни
+0–5, `gain = after - before`. Они есть и в карточках, и в симуляции. Значения до/после
+рассчитывает движок; UI не прибавляет навыки самостоятельно. Для совместимости с
+ранее сохранёнными выполнениями новые поля имеют значения по умолчанию; пустой
+`skill_changes` отображается как неизвестный прирост.
+
+Если `recommend` или `simulate` выбрасывает `DomainError(503, ...)` либо
+`TimeoutError`, API повторяет preview на `MockEngine` с тем же контекстом SQLite и
+возвращает `mode: mock`, `is_fallback: true` и объяснение. Основной адаптер сам
+должен ограничивать время внешнего запроса; API не задаёт ему отдельный deadline.
+Ошибки 403/404/409/422, валидация и ошибки программирования не скрываются.
+Fallback проверяет доступность события и сессии заново. Для `completions` и
+`trajectory` этот механизм не применяется. Frontend прекращает запрос через 15 с
+и предлагает повтор; при 401 очищает сессию, при закрытии окна отменяет запрос.
+
+`TrajectoryResponse`: `employee_id`, `as_of_date`, `assessed_on`, `mode`,
+`skills_basis` (`last_review`/`current`), `target` (CareerGoal или null),
+`status` (`target_set`/`no_goal`/`target_unavailable`), `requirements[]`,
+`met_count`, `critical_gap_count`, `progress_pct`, `message`, `current_skills`.
+Каждое требование содержит `skill_id`, `name`, `type`, `current_level`,
+`required_level`, `gap`, `critical`. Адаптер сравнивает восстановленные по истории
+навыки с требованиями явно заданной цели: отсутствие навыка — 0, gap не ниже 0.
+`current_skills` содержит все актуальные навыки, в том числе вне цели. Общий
+процент готовности пока неизвестен. При отсутствии цели следующий грейд не выдумывается.
+При смене роли сравнение идёт с целевой ролью; отсутствующий профиль требований
+даёт `target_unavailable`. Все расчёты остаются в адаптере движка, не в React.
 
 ### Поведение mock
 
 `mode: mock` виден во всех ответах движка и сохранённых результатах.
 Простая заглушка выбирает до трёх событий в порядке каталога с базовой проверкой
 роли, грейда, prerequisites, завершений и расписания. Это не ранжирование.
-Навыки возвращаются из профиля без восстановления истории; симуляция сохраняет
-их неизменными. Проценты и score равны null. Сохранение выполнения действительно
-меняет историю и исключает завершённое событие из последующих mock-рекомендаций.
-Никакой LLM или числовой модели развития пока нет.
+Навыки восстанавливаются из профиля и completed-истории после оценки. Для каждого развиваемого
+навыка `after = max(before, min(max_level, before + gain))`, отсутствующий навык
+имеет `before = 0`. Навык выше потолка мероприятия не снижается. Мероприятия без
+положительного прироста исключаются. Объяснения ссылаются на роль/грейд,
+развиваемые навыки (критический дефицит цели при наличии) и отсутствие завершения.
+Симуляция не пишет в SQLite, проценты и score равны null. Сохранение выполнения
+действительно меняет историю и исключает завершённое событие из следующих
+рекомендаций, не переписывая исходную оценку. LLM и настоящее ранжирование ещё
+не подключены. `skills_basis: current` означает учёт завершений: дата `completed_at`
+или, при её отсутствии, `date` должна быть строго после `last_review_date` и не позже
+`as_of_date`. Это допущение явно показано в UI. Для повторяемого клуба прирост
+учитывается отдельно по дате сессии; обычное добровольное событие — один раз,
+обязательное обучение — по датам записей. Старые повторные записи не удаляются.
+Обработка идёт по эффективной дате завершения и record_id; повторная история не
+начисляется поверх уже изменённого профиля, поскольку исходная оценка не меняется.
+
+### HR и добавочный импорт
+
+`HROverview`: `as_of_date`, `mode`, `employees[]`, `skill_gaps[]`, `events[]`,
+`no_step_count`, `unavailable_count`, `message`. В `employees` — ID, имя, отдел,
+роль, грейд, `critical_gap_count` (null при неизвестном расчёте),
+`recommendation_status` (`available`/`none`/`unavailable`) и `reason`.
+Сотрудники упорядочены по ID. Ошибка движка не выдаётся за отсутствие рекомендаций.
+
+`skill_gaps`: ID/имя навыка, `employees_count`, `critical_count`. Счётчики означают
+число сотрудников с положительным дефицитом относительно их явно заданной цели.
+`events`: ID/название, уникальные `participants`, общее число `records`,
+`completed`, `in_progress`, `other`. Каждая сессия/повторная запись учитывается отдельно.
+Один запрос читает согласованный снимок БД; повторное обновление видит новые выполнения
+и импортированные профили. Frontend не рассчитывает дефициты самостоятельно.
+
+`POST /hr/imports` использует JSON со строковым содержимым файлов, не multipart.
+`dry_run: true` проверяет без записи; false валидирует заново и сохраняет одной
+транзакцией. Существующие записи не перезаписываются. Конфликтующий ID — ошибка,
+идентичная запись пропускается. [Полные форматы, лимиты и ошибки](jury-import.md).
+Новые профили сразу доступны движку и HR; учётные записи создаёт администратор отдельно.
 
 ### Граница текущего этапа
 
-Авторизация сотрудник/HR, UI и HTTP-импорт — следующие задачи. Сейчас API
-предназначен для локальной разработки и запускается на `127.0.0.1`.
-Открывать этот backend публично до реализации разграничения доступа нельзя.
+Авторизация, кабинет, рекомендации, симуляция, выполнение, HR-экран и HTTP-импорт реализованы.
+Собранный интерфейс раздаётся FastAPI при `CQ_SERVE_FRONTEND=1`; launcher `./start.sh`
+собирает его и запускает API на одном порту. Дальше — интеграция с реальным AI-движком.
+Сейчас API предназначен для локальной разработки и запускается на `127.0.0.1`.
+Для использования токенов через интернет необходим HTTPS.
 Доска планирования — отдельный сервис и к этому API не относится.
+
+### Additional response model details
+
+`CompletionResponse = {completion: Completion, replayed: boolean}`;
+`Completion.result` is the complete `SimulationResponse` saved at completion time.
+`GET .../completions` returns `{items: Completion[]}`. Date fields serialize as ISO
+YYYY-MM-DD; `created_at` is an ISO datetime.
+
+`JuryImportResult`: `dry_run`, `employees_added`, `employees_skipped`,
+`history_added`, `history_skipped`, `employee_ids[]`.
 
 ## 2. AI Engine Python Contract
 
@@ -214,7 +312,7 @@ type RecommendationResponse = {
 
 - `target` is the explicit career goal, or the existing default trajectory.
   `next_grade` is the next grade in the current role; null for Lead or absent profile.
-  These can differ for career changes. Readiness measures `target`, in percent 0?100.
+  These can differ for career changes. Readiness measures `target`, in percent 0-100.
 - `skill_impacts` contains every skill actually increased in the simulation, including
   skills outside the target requirements. `gain` is the realized increase after caps,
   not the raw event gain. Every candidate starts from the same reconstructed state.
@@ -251,33 +349,65 @@ No FastAPI, SQLite or frontend implementation is provided by this engine.
 [Complete E0002 response, limit=1, deterministic mode](integration-example.json).
 The runner-up remains EV_036 although only one recommendation is returned.
 
-Run `python -m unittest discover -s tests -q`: 48 tests pass, including six wrapper
+Run `python -m unittest discover -s tests -q`. Previously 48 tests passed (not rerun
+during this documentation resolution), including six wrapper
 integration tests, strict JSON serialization, missing-key fallback, source mapping,
 empty results, null next grade, preservation of frozen ranking/score, and the full
 200-profile dataset validation. Existing 42 tests remain intact.
 
 ## 3. Integration Mapping
 
-An application-layer adapter is required and is NOT implemented by this merge.
-`backend/app/engine/` remains frozen. The HTTP and Python schemas above are separate
-contracts, not interchangeable versions of the same response.
+RealAIEngineAdapter is required outside `backend/app/engine/` and is not implemented
+by this merge. The engine is frozen. The contracts above are separate interfaces.
+Inject the adapter through `create_app(settings, engine=...)`; the default remains
+MockEngine. Initial integration must use `use_llm=False`.
 
-| Application / HTTP | AI Engine Python | Adapter responsibility |
+| Application / HTTP | Frozen AI / verified source | Adapter responsibility |
 | --- | --- | --- |
-| `Engine.recommend(context)` | `recommend(employee, history, events, catalog, as_of_date, ...)` | Unpack EngineContext; serialize Pydantic objects in JSON mode and dates as ISO strings |
-| `context.profile` | `employee` | Preserve the assessment snapshot and supported dataset fields |
-| `items` | `recommendations` | Map fields explicitly; current HTTP schema does not expose all AI fields |
-| `score`, `reasons[]` | `final_score`, `score_breakdown`, `why_this`, `why_not`, `explanation` | Preserve verified explanations; agree any HTTP schema extension before implementation |
-| `current_skills`, `progress_pct` | `readiness_before`; reconstructed skills are available through existing `analyze` | Do not substitute stored assessment skills for current skills; do not recalculate gains in the adapter |
-| `format`, `duration_hours`, `session_date` | Event catalog and available-session facts | Supply required HTTP fields and validate session selection in the application layer |
-| `mode: mock/live` | `explanation_source: deterministic/llm` | Engine mode and explanation source are different concepts |
-| `Engine.simulate(context, request)` | Existing `simulate(employee, history, events, catalog, as_of_date, event_id)` | Adapt simulation output and add context/session metadata expected by SimulationResponse |
+| `recommend(context)` | `recommend(employee, history, events, catalog, as_of_date, limit=3, use_llm=False)` | Unpack context; construct RecommendationResponse with at most three items |
+| `context.profile` | `employee` | Use Pydantic model_dump(mode="json"); preserve last-review snapshot |
+| `history`, `events`, `catalog` | Dataset-compatible lists/dictionaries | Serialize models in JSON mode; retain skills and role_profiles |
+| `as_of_date`, session dates | ISO YYYY-MM-DD | Convert dates explicitly; use configured calculation date |
+| `items`, `score` | `recommendations`, `final_score` | Preserve ranking and exact scores |
+| `current_skills` | Reconstructed state from existing `analyze` | Do not substitute stored assessment skills or reimplement gains |
+| `progress_pct` | `readiness_before` | Ensure readiness refers to the displayed target |
+| `skill_changes[]` | `skill_impacts[]` plus catalog names | Map skill_id/before/after/gain and add name; gain is the realized capped increase |
+| `format`, `duration_hours`, `session_date` | Event catalog and eligible-session facts | Supply required presentation fields and preserve session identity |
+| `reasons[]`, `message` | `why_this`, `why_not`, `explanation`, warnings/empty reason | Preserve verified facts and a clear empty state |
+| `skills_basis`, `assessed_on` | Current reconstructed state, last_review_date | Set current basis and retain original assessment date |
+| `trajectory(context)` | Existing deterministic `analyze` state/target/gaps/readiness | Build target, requirements, met_count, critical_gap_count, current_skills and progress_pct; add catalog names/types |
+| `simulate(context, request)` | Existing `simulate(employee, history, events, catalog, as_of_date, event_id)` | Map skill/readiness before-after to SimulationResponse; add catalog names and context/session metadata |
+| `mode: live` | Deterministic AI with optional LLM wording | Engine mode is not explanation source; deterministic AI is still live |
+| `is_fallback`, `fallback_reason` | Application preview fallback versus AI explanation fallback | Keep separate: failed LLM wording must retain real AI calculations and selection |
+| Completion persistence | Application storage/idempotency | Save history and simulation atomically; recalculate from fresh context |
 
-The HTTP layer currently defaults to MockEngine. Initial real-engine integration
-must use `use_llm=False`. Recording completions, transactions, idempotency and
-employee/HR authorization belong to the application layer.
+The current HTTP recommendation schema does **not** expose dedicated structured
+WHY NOT (`why_not`, `alternative_event_id`), `score_breakdown`, `critic`, or
+`explanation_source`. Per-item `readiness_after` is also absent; the simulation
+response carries before/after progress. Reasons can carry text, but exposing all
+AI differentiators requires an agreed HTTP/UI extension. Do not return a raw Python
+AI response where a Pydantic HTTP response is expected.
 
-Before enabling the adapter, test `date` versus `completed_at`, self-paced completion
-history, session dates, no-candidate responses and duplicate completion. The frozen
-engine uses the existing dataset date semantics; no new completion-date handling is
-introduced here. Full jury import into an existing database remains pending.
+### Date and target semantics requiring integration validation
+
+- SQLite completed_at is the effective completion date when present. Jury history
+  can complete after its original date. Without completed_at, dataset date remains
+  a documented proxy, especially for self-paced enrollment.
+- Normalize copied history for the frozen engine's date semantics; retain original
+  session dates for repeatable occurrence checks. Do not overwrite stored history.
+- Only completions strictly after last_review_date and no later than as_of_date
+  contribute to skills. Preserve caps, higher existing skills and no-double-gain rules.
+- Mock trajectory uses an explicit goal and returns no_goal otherwise; AI supports
+  a default trajectory too. Align target/status/UI semantics before mapping readiness.
+- Map missing requirements and invalid inputs deliberately; do not fabricate progress
+  or change AI eligibility to hide errors.
+
+HR calls recommend/trajectory per employee; keep aggregation deterministic without
+per-employee LLM calls. Jury import is already implemented and must be covered by
+adapter tests, including imported completion timestamps.
+
+Acceptance: E0002/EV_005, readiness 62 to 66 at the supplied snapshot; simulation;
+valid completion/repeated completion; recalculation; no candidates; review-date
+boundaries; repeatable sessions; employee isolation and HR access. Scheduled events
+must use a valid session/calculation date for completion, not premature completion
+at the recommendation snapshot.

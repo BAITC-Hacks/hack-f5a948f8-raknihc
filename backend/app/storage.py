@@ -31,7 +31,25 @@ CREATE TABLE IF NOT EXISTS completions (
     UNIQUE(employee_id, idempotency_key),
     UNIQUE(employee_id, event_id, occurrence)
 );
-PRAGMA user_version = 1;
+CREATE TABLE IF NOT EXISTS accounts (
+    user_id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    role TEXT NOT NULL CHECK(role IN ('employee', 'hr')),
+    employee_id TEXT UNIQUE REFERENCES employees(employee_id),
+    is_active INTEGER NOT NULL DEFAULT 1 CHECK(is_active IN (0, 1)),
+    CHECK(role = 'hr' OR employee_id IS NOT NULL)
+);
+CREATE TABLE IF NOT EXISTS sessions (
+    token_hash TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,
+    expires_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS sessions_user ON sessions(user_id);
+CREATE TABLE IF NOT EXISTS login_attempts (
+    scope TEXT PRIMARY KEY, window_start INTEGER NOT NULL, attempts INTEGER NOT NULL
+);
+PRAGMA user_version = 2;
 """
 
 
@@ -59,10 +77,10 @@ class Store:
         db = sqlite3.connect(self.path)
         try:
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version not in (0, 1):
+            if version not in (0, 1, 2):
                 raise RuntimeError(f"Unsupported database schema: {version}")
             db.execute("PRAGMA journal_mode=WAL")
-            db.executescript(SCHEMA)
+            db.executescript("BEGIN IMMEDIATE;\n" + SCHEMA + "\nCOMMIT;")
         finally:
             db.close()
 
