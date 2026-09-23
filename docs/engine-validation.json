@@ -1,0 +1,80 @@
+{
+  "profiles": 200,
+  "candidates": 476,
+  "without_recommendations": 35,
+  "tests_passed": 42,
+  "E0002": {
+    "employee_id": "E0002",
+    "top3": [
+      {
+        "event_id": "EV_005",
+        "title": "System Design Fundamentals",
+        "score_breakdown": {
+          "gap_impact": 2,
+          "critical_gap_impact": 4,
+          "history_modifier": -1.0,
+          "career_goal_modifier": 0.333333,
+          "efficiency_modifier": 0.075,
+          "final_score": 5.408333
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 66.0
+      },
+      {
+        "event_id": "EV_036",
+        "title": "Public Speaking Club",
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.1,
+          "final_score": 1.266667
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 64.0
+      },
+      {
+        "event_id": "EV_011",
+        "title": "Secure Coding Workshop",
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.033333,
+          "final_score": 1.2
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 64.0
+      }
+    ],
+    "explanation_card": {
+      "source": "deterministic",
+      "fallback_reason": "missing_api_key",
+      "explanation": "Следующий шаг: System Design Fundamentals.",
+      "why_this": "SK_API_DESIGN: 1 → 2 / 4; SK_SYSTEM_DESIGN: 1 → 2 / 4. Критический вклад: 4; поправка истории: -1.0.",
+      "why_not": "EV_036: score 1.266667 против 5.408333. Разница: gap_impact +1, critical_gap_impact +4, history_modifier -1, career_goal_modifier +0.166666, efficiency_modifier -0.025.",
+      "expected_career_impact": "Соответствие цели Backend Engineer / Senior: 62.0% → 66.0%.",
+      "caution": "Есть пропуски/отказы похожих активностей; стоит уточнить удобный формат."
+    }
+  },
+  "adversarial_A": [
+    {
+      "event_id": "J_SYSTEM",
+      "score": 3.316667
+    },
+    {
+      "event_id": "J_SPEAK",
+      "score": 1.216667
+    }
+  ],
+  "dataset_matches_original_zip": true,
+  "state_builder_validation": {
+    "tests_passed": 9,
+    "implementation_change_required": false,
+    "review_boundary": "Only completed rows with last_review_date < date <= as_of_date contribute gains",
+    "cap_rule": "max(old, min(5, max_level, old + gain))",
+    "limitation": "Self-paced records contain enrollment dates, not completion timestamps; existing proxy-date warning remains."
+  }
+}
