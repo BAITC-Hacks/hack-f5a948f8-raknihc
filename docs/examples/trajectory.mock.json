@@ -1,9 +1,34 @@
 {
+  "current_skills": {
+    "SK_PYTHON": 3,
+    "SK_SQL": 2,
+    "SK_API_DESIGN": 2,
+    "SK_SYSTEM_DESIGN": 1,
+    "SK_CLOUD": 1,
+    "SK_CONTAINERS": 0,
+    "SK_CICD": 1,
+    "SK_APP_SECURITY": 1,
+    "SK_OBSERVABILITY": 0,
+    "SK_COMMUNICATION": 2,
+    "SK_PUBLIC_SPEAKING": 0,
+    "SK_WRITTEN_COMMUNICATION": 3,
+    "SK_STAKEHOLDER_MGMT": 1,
+    "SK_LEADERSHIP": 1,
+    "SK_MENTORING": 0,
+    "SK_FEEDBACK": 2,
+    "SK_CONFLICT_RESOLUTION": 3,
+    "SK_TEAMWORK": 2,
+    "SK_EMOTIONAL_INTELLIGENCE": 2,
+    "SK_PROBLEM_SOLVING": 2,
+    "SK_CRITICAL_THINKING": 3,
+    "SK_TIME_MANAGEMENT": 2,
+    "SK_ADAPTABILITY": 2
+  },
   "employee_id": "E0001",
   "as_of_date": "2026-10-01",
   "assessed_on": "2026-09-11",
   "mode": "mock",
-  "skills_basis": "last_review",
+  "skills_basis": "current",
   "target": {
     "target_role": "Backend Engineer",
     "target_grade": "Middle"
@@ -18,15 +43,6 @@
       "required_level": 3,
       "gap": 1,
       "critical": true
-    },
-    {
-      "skill_id": "SK_APP_SECURITY",
-      "name": "Application Security",
-      "type": "hard",
-      "current_level": 0,
-      "required_level": 2,
-      "gap": 2,
-      "critical": false
     },
     {
       "skill_id": "SK_CONTAINERS",
@@ -44,6 +60,15 @@
       "current_level": 0,
       "required_level": 2,
       "gap": 2,
+      "critical": false
+    },
+    {
+      "skill_id": "SK_APP_SECURITY",
+      "name": "Application Security",
+      "type": "hard",
+      "current_level": 1,
+      "required_level": 2,
+      "gap": 1,
       "critical": false
     },
     {
@@ -149,5 +174,5 @@
   "met_count": 2,
   "critical_gap_count": 1,
   "progress_pct": null,
-  "message": "Сравнение с последней оценкой. Обучение после неё ещё не учтено; готовность к повышению не рассчитана."
+  "message": "Учтены завершения после оценки. Если дата завершения неизвестна, используется дата записи истории. Общий прогресс не рассчитан."
 }

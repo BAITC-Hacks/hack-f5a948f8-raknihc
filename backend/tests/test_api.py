@@ -47,7 +47,9 @@ def test_mock_simulation_does_not_mutate_and_marks_unknown_progress(client):
     result = response.json()
     assert result["mode"] == "mock"
     assert result["progress_after_pct"] is None
-    assert result["skills_before"] == result["skills_after"] == before["skills"]
+    assert result["skills_before"] == before["skills"]
+    assert result["skills_after"] == {"SK_TEST": 2}
+    assert result["skill_changes"] == [{"skill_id": "SK_TEST", "name": "Test Skill", "before": 1, "after": 2, "gain": 1}]
     assert client.get(BASE).json() == before
     assert client.get(BASE + "/history").json() == history
 

@@ -1,0 +1,9 @@
+{
+  "employees": [{
+    "employee_id": "JURY_001", "full_name": "Demo Employee", "department": "Engineering",
+    "role": "Backend Engineer", "grade": "Junior", "manager_id": null,
+    "hire_date": "2025-01-01", "tenure_months": 21, "work_format": "remote",
+    "preferred_language": "ru", "career_goal": {"target_role": "Backend Engineer", "target_grade": "Middle"},
+    "skills": {"SK_API_DESIGN": 1}, "last_review_date": "2026-09-01"
+  }]
+}

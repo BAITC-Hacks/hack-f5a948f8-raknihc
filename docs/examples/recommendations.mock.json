@@ -10,7 +10,7 @@
     "SK_CLOUD": 1,
     "SK_CONTAINERS": 0,
     "SK_CICD": 1,
-    "SK_APP_SECURITY": 0,
+    "SK_APP_SECURITY": 1,
     "SK_OBSERVABILITY": 0,
     "SK_COMMUNICATION": 2,
     "SK_PUBLIC_SPEAKING": 0,
@@ -36,11 +36,27 @@
       "duration_hours": 16.0,
       "session_date": "2026-11-23",
       "reasons": [
-        "Роль и грейд входят в целевую аудиторию.",
-        "Предварительные требования соблюдены по последней оценке.",
-        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+        "Подходит вашей роли Backend Engineer и грейду Junior.",
+        "Развивает критический навык API Design: 2 → 3; для цели требуется 3.",
+        "В истории нет завершения этого добровольного мероприятия."
       ],
-      "score": null
+      "score": null,
+      "skill_changes": [
+        {
+          "skill_id": "SK_SYSTEM_DESIGN",
+          "name": "System Design",
+          "before": 1,
+          "after": 2,
+          "gain": 1
+        },
+        {
+          "skill_id": "SK_API_DESIGN",
+          "name": "API Design",
+          "before": 2,
+          "after": 3,
+          "gain": 1
+        }
+      ]
     },
     {
       "event_id": "EV_012",
@@ -49,11 +65,20 @@
       "duration_hours": 24.0,
       "session_date": null,
       "reasons": [
-        "Роль и грейд входят в целевую аудиторию.",
-        "Предварительные требования соблюдены по последней оценке.",
-        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+        "Подходит вашей роли Backend Engineer и грейду Junior.",
+        "Развивает навыки с учётом завершённого обучения: Python.",
+        "В истории нет завершения этого добровольного мероприятия."
       ],
-      "score": null
+      "score": null,
+      "skill_changes": [
+        {
+          "skill_id": "SK_PYTHON",
+          "name": "Python",
+          "before": 3,
+          "after": 4,
+          "gain": 1
+        }
+      ]
     },
     {
       "event_id": "EV_019",
@@ -62,12 +87,32 @@
       "duration_hours": 8.0,
       "session_date": "2026-10-16",
       "reasons": [
-        "Роль и грейд входят в целевую аудиторию.",
-        "Предварительные требования соблюдены по последней оценке.",
-        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+        "Подходит вашей роли Backend Engineer и грейду Junior.",
+        "Развивает навыки с учётом завершённого обучения: API Testing, Load Testing.",
+        "В истории нет завершения этого добровольного мероприятия."
       ],
-      "score": null
+      "score": null,
+      "skill_changes": [
+        {
+          "skill_id": "SK_API_TESTING",
+          "name": "API Testing",
+          "before": 0,
+          "after": 1,
+          "gain": 1
+        },
+        {
+          "skill_id": "SK_LOAD_TESTING",
+          "name": "Load Testing",
+          "before": 0,
+          "after": 1,
+          "gain": 1
+        }
+      ]
     }
   ],
-  "message": "Mock: алгоритм AI ещё не подключён; навыки взяты из последней оценки, прогресс не рассчитан."
+  "message": "Ожидаемый прирост рассчитан по правилам мероприятия. Общий прогресс к цели пока не рассчитан.",
+  "skills_basis": "current",
+  "assessed_on": "2026-09-11",
+  "is_fallback": false,
+  "fallback_reason": null
 }

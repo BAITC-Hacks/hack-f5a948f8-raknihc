@@ -58,3 +58,24 @@ export async function login(page: Page, password = 'test-password') {
   await page.getByLabel('Пароль', { exact: true }).fill(password)
   await page.getByRole('button', { name: 'Войти в кабинет' }).click()
 }
+
+export const recommendations = {
+  employee_id: 'E_TEST', as_of_date: '2026-10-01', mode: 'mock', skills_basis: 'last_review', assessed_on: '2026-09-01',
+  current_skills: profile.skills, progress_pct: null, is_fallback: false, fallback_reason: null,
+  message: 'Ожидаемый прирост рассчитан по правилам мероприятия.',
+  items: [
+    { event_id: 'EV_A', title: 'Architecture Fundamentals', format: 'online', duration_hours: 12, session_date: '2026-11-23', score: null,
+      reasons: ['Подходит вашей роли.', 'Развивает критический навык API Design.'],
+      skill_changes: [{ skill_id: 'SK_API', name: 'API Design', before: 2, after: 3, gain: 1 }] },
+    { event_id: 'EV_B', title: 'Team Workshop', format: 'self_paced', duration_hours: 4, session_date: null, score: null,
+      reasons: ['Развивает командную работу.'],
+      skill_changes: [{ skill_id: 'SK_TEAM', name: 'Teamwork', before: 3, after: 4, gain: 1 }] },
+  ],
+}
+export const simulation = {
+  employee_id: 'E_TEST', event_id: 'EV_A', as_of_date: '2026-10-01', session_date: '2026-11-23',
+  mode: 'mock', skills_basis: 'last_review', assessed_on: '2026-09-01', is_fallback: false, fallback_reason: null,
+  message: 'Ожидаемый прирост рассчитан по правилам мероприятия.',
+  skills_before: profile.skills, skills_after: { ...profile.skills, SK_API: 3 },
+  progress_before_pct: null, progress_after_pct: null, skill_changes: recommendations.items[0].skill_changes,
+}

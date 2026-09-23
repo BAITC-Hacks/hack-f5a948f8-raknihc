@@ -35,6 +35,7 @@ export interface Requirement {
   gap: number; critical: boolean
 }
 export interface Trajectory {
+  current_skills?: Record<string, number>
   employee_id: string; as_of_date: string; assessed_on: string; mode: 'mock' | 'live'
   skills_basis: 'last_review' | 'current'; target: Employee['career_goal']
   status: 'target_set' | 'no_goal' | 'target_unavailable'; requirements: Requirement[]
@@ -42,4 +43,42 @@ export interface Trajectory {
 }
 export interface DashboardData {
   profile: Employee; catalog: Catalog; history: HistoryRecord[]; events: Activity[]; trajectory: Trajectory
+}
+export interface SkillChange {
+  skill_id: string; name: string; before: number; after: number; gain: number
+}
+export interface PreviewBasis {
+  mode: 'mock' | 'live'; skills_basis: 'last_review' | 'current'; assessed_on: string | null
+  is_fallback: boolean; fallback_reason: string | null; message: string
+}
+export interface Recommendation {
+  event_id: string; title: string; format: Activity['format']; duration_hours: number
+  session_date: string | null; reasons: string[]; score: number | null; skill_changes: SkillChange[]
+}
+export interface Recommendations extends PreviewBasis {
+  employee_id: string; as_of_date: string; current_skills: Record<string, number>
+  progress_pct: number | null; items: Recommendation[]
+}
+export interface Simulation extends PreviewBasis {
+  employee_id: string; event_id: string; as_of_date: string; session_date: string | null
+  skills_before: Record<string, number>; skills_after: Record<string, number>
+  progress_before_pct: number | null; progress_after_pct: number | null; skill_changes: SkillChange[]
+}
+
+export interface CompletionResult {
+  replayed: boolean
+  completion: { completion_id: string; event_id: string; session_date: string | null; result: Simulation }
+}
+export interface HREmployee {
+  employee_id: string; full_name: string; department: string; role: string; grade: Grade
+  recommendation_status: 'available' | 'none' | 'unavailable'; reason: string; critical_gap_count: number | null
+}
+export interface HROverview {
+  as_of_date: string; mode: 'mock' | 'live'; message: string; no_step_count: number; unavailable_count: number
+  employees: HREmployee[]
+  skill_gaps: { skill_id: string; name: string; employees_count: number; critical_count: number }[]
+  events: { event_id: string; title: string; participants: number; records: number; completed: number; in_progress: number; other: number }[]
+}
+export interface ImportResult {
+  dry_run: boolean; employees_added: number; employees_skipped: number; history_added: number; history_skipped: number; employee_ids: string[]
 }

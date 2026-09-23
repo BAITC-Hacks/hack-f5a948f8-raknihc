@@ -4,8 +4,9 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, FastAPI, Header, Query, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
-from .config import Settings
+from .config import Settings, ROOT
 from .auth import (Auth, Credentials, CurrentUser, require_hr, require_own_profile,
                    require_profile_access, require_user)
 from .engine_port import DomainError, Engine
@@ -15,6 +16,9 @@ from .schemas import (ActivityRequest, Catalog, Completion, CompletionList, Comp
                       RecommendationResponse, SimulationResponse)
 from .schemas import HRSummary, LoginRequest, LoginResponse, User, TrajectoryResponse
 from .storage import Store
+from .hr import overview
+from .jury_import import import_profiles, ImportProblem
+from .schemas import HROverview, JuryImportRequest, JuryImportResult
 
 
 def create_app(settings: Settings | None = None, engine: Engine | None = None) -> FastAPI:
@@ -47,8 +51,10 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         headers = {"WWW-Authenticate": "Bearer"} if exc.status == 401 else {}
         if exc.status == 429:
             headers["Retry-After"] = "300"
-        return JSONResponse(status_code=exc.status, headers=headers,
-                            content={"detail": {"code": exc.code, "message": exc.message}})
+        detail = {"code": exc.code, "message": exc.message}
+        if isinstance(exc, ImportProblem):
+            detail['issues'] = exc.issues
+        return JSONResponse(status_code=exc.status, headers=headers, content={"detail": detail})
 
     @app.post("/api/v1/auth/login", response_model=LoginResponse, tags=["auth"])
     def login(body: LoginRequest):
@@ -102,9 +108,21 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         with store.connect() as db:
             return store.context(db, employee_id, settings.as_of_date)
 
+    def preview_with_fallback(operation, ctx, *args):
+        try:
+            return getattr(engine, operation)(ctx, *args)
+        except (DomainError, TimeoutError) as exc:
+            if isinstance(exc, DomainError) and exc.status != 503:
+                raise
+            result = getattr(MockEngine(), operation)(ctx, *args)
+            return result.model_copy(update={
+                "is_fallback": True,
+                "fallback_reason": "Основной сервис временно недоступен. Показан предварительный расчёт по каталогу с учётом завершённого обучения.",
+            })
+
     @api.get("/employees/{employee_id}/recommendations", response_model=RecommendationResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
     def recommendations(employee_id: str):
-        return engine.recommend(context(employee_id))
+        return preview_with_fallback("recommend", context(employee_id))
 
     @api.get("/employees/{employee_id}/trajectory", response_model=TrajectoryResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
     def trajectory(employee_id: str):
@@ -112,7 +130,7 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
 
     @api.post("/employees/{employee_id}/simulations", response_model=SimulationResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
     def simulate(employee_id: str, body: ActivityRequest):
-        return engine.simulate(context(employee_id), body)
+        return preview_with_fallback("simulate", context(employee_id), body)
 
     @api.post("/employees/{employee_id}/completions", response_model=CompletionResponse,
               status_code=201, responses={200: {"model": CompletionResponse, "description": "Idempotent replay"}}, tags=["completions"],
@@ -142,7 +160,17 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
                 app_completions_total=db.execute("SELECT COUNT(*) FROM completions").fetchone()[0],
             )
 
+    @api.get('/hr/overview', response_model=HROverview, tags=['hr'], dependencies=[Depends(require_hr)])
+    def hr_overview():
+        return overview(store, engine, settings.as_of_date)
+
+    @api.post('/hr/imports', response_model=JuryImportResult, tags=['hr'], dependencies=[Depends(require_hr)])
+    def jury_import(body: JuryImportRequest):
+        return import_profiles(store, body, settings.as_of_date)
+
     app.include_router(api)
+    if settings.serve_frontend:
+        app.mount('/', StaticFiles(directory=ROOT / 'frontend/dist', html=True), name='frontend')
     return app
 
 

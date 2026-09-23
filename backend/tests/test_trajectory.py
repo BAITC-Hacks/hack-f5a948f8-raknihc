@@ -9,7 +9,7 @@ def test_goal_requirements_and_snapshot_basis(client):
     assert response.status_code == 200
     result = response.json()
     assert result['status'] == 'target_set'
-    assert result['skills_basis'] == 'last_review'
+    assert result['skills_basis'] == 'current'
     assert result['assessed_on'] == '2026-09-01'
     assert result['progress_pct'] is None
     assert result['met_count'] == 0

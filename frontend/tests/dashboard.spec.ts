@@ -58,10 +58,11 @@ test('failed load is recoverable and unauthorized refresh clears data', async ({
   await expect(page.getByRole('heading', { name: 'Alex Test' })).toHaveCount(0)
 })
 
-test('HR without personal profile never loads an employee dashboard', async ({ page }) => {
+test('HR opens aggregate workspace without loading an employee dashboard', async ({ page }) => {
   const requests = await mockApi(page, { hr: true })
   await page.goto('/'); await login(page)
-  await expect(page.getByRole('heading', { name: 'У этой учётной записи нет личного профиля' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'HR-обзор' })).toBeVisible()
+  expect(requests).toContain('/hr/overview')
   expect(requests.filter(path => path.startsWith('/employees'))).toEqual([])
 })
 

@@ -113,6 +113,14 @@ class ActivityRequest(Model):
     session_date: date | None = None
 
 
+class SkillChange(Model):
+    skill_id: Identifier
+    name: str
+    before: Level
+    after: Level
+    gain: Level
+
+
 class Recommendation(Model):
     event_id: Identifier
     title: str
@@ -121,6 +129,7 @@ class Recommendation(Model):
     session_date: date | None
     reasons: list[str]
     score: float | None
+    skill_changes: list[SkillChange] = Field(default_factory=list)
 
 
 class RecommendationResponse(Model):
@@ -129,8 +138,12 @@ class RecommendationResponse(Model):
     mode: Mode
     current_skills: dict[str, Level]
     progress_pct: Percent | None
-    items: list[Recommendation]
+    items: list[Recommendation] = Field(max_length=3)
     message: str
+    skills_basis: Literal["last_review", "current"] = "last_review"
+    assessed_on: date | None = None
+    is_fallback: bool = False
+    fallback_reason: str | None = None
 
 
 class SimulationResponse(Model):
@@ -144,6 +157,11 @@ class SimulationResponse(Model):
     progress_before_pct: Percent | None
     progress_after_pct: Percent | None
     message: str
+    skill_changes: list[SkillChange] = Field(default_factory=list)
+    skills_basis: Literal["last_review", "current"] = "last_review"
+    assessed_on: date | None = None
+    is_fallback: bool = False
+    fallback_reason: str | None = None
 
 
 class Completion(Model):
@@ -214,6 +232,60 @@ class HRSummary(Model):
     app_completions_total: int
 
 
+class HREmployee(Model):
+    employee_id: Identifier
+    full_name: str
+    department: str
+    role: str
+    grade: Grade
+    recommendation_status: Literal['available', 'none', 'unavailable']
+    reason: str
+    critical_gap_count: int | None
+
+
+class HRSkillGap(Model):
+    skill_id: Identifier
+    name: str
+    employees_count: int
+    critical_count: int
+
+
+class HREventStats(Model):
+    event_id: Identifier
+    title: str
+    participants: int
+    records: int
+    completed: int
+    in_progress: int
+    other: int
+
+
+class HROverview(Model):
+    as_of_date: date
+    mode: Mode
+    employees: list[HREmployee]
+    skill_gaps: list[HRSkillGap]
+    events: list[HREventStats]
+    no_step_count: int
+    unavailable_count: int
+    message: str
+
+
+class JuryImportRequest(Model):
+    employees_json: Annotated[str, Field(max_length=2_000_000)] | None = None
+    history_csv: Annotated[str, Field(max_length=2_000_000)] | None = None
+    dry_run: bool = True
+
+
+class JuryImportResult(Model):
+    dry_run: bool
+    employees_added: int
+    employees_skipped: int
+    history_added: int
+    history_skipped: int
+    employee_ids: list[str]
+
+
 class SkillRequirement(Model):
     skill_id: Identifier
     name: str
@@ -225,6 +297,7 @@ class SkillRequirement(Model):
 
 
 class TrajectoryResponse(Model):
+    current_skills: dict[str, Level] = Field(default_factory=dict)
     employee_id: Identifier
     as_of_date: date
     assessed_on: date
