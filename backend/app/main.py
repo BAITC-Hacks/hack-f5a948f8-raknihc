@@ -11,6 +11,7 @@ from .auth import (Auth, Credentials, CurrentUser, require_hr, require_own_profi
                    require_profile_access, require_user)
 from .engine_port import DomainError, Engine
 from .mock_engine import MockEngine
+from .real_ai_engine_adapter import RealAIEngineAdapter
 from .schemas import (ActivityRequest, Catalog, Completion, CompletionList, CompletionResponse,
                       Employee, EmployeePage, EventList, Health, HistoryList,
                       RecommendationResponse, SimulationResponse)
@@ -23,7 +24,7 @@ from .schemas import HROverview, JuryImportRequest, JuryImportResult
 
 def create_app(settings: Settings | None = None, engine: Engine | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
-    engine = engine if engine is not None else MockEngine()
+    engine = engine if engine is not None else RealAIEngineAdapter(use_llm=settings.use_llm)
     store = Store(settings.db_path)
 
     @asynccontextmanager
@@ -32,7 +33,7 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         yield
 
     app = FastAPI(title="Career Quest API", version="0.2.0", lifespan=lifespan,
-                  description="Вход: /api/v1/auth/login. Скопируйте access_token в Authorize. Движок пока mock.")
+                  description=f"Вход: /api/v1/auth/login. Скопируйте access_token в Authorize. Режим движка: {engine.mode}.")
     app.state.store, app.state.engine, app.state.settings = store, engine, settings
     auth = app.state.auth = Auth(store, settings.session_ttl_seconds)
     app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),

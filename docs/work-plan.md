@@ -1,62 +1,92 @@
-# План реализации Career Quest
+# Career Quest work plan
 
-Статус: начата реализация. В `feat/app-ui` готов локальный FastAPI/SQLite backend,
-импорт стартового датасета, API профилей/истории/выполнений и mock-движок.
-Контракт v1 описан в `docs/api-contract.md`; требуется сверка с участником AI engine.
-Добавлены серверные права сотрудник/HR, вход, сессии и HR-обзор общих счётчиков.
-Кабинет сотрудника на React/TypeScript/Vite реализован: профиль, навыки, история,
-требования цели, критические дефициты и траектория с учётом завершённого обучения.
-Карточки рекомендаций и симуляция реализованы, включая загрузку, ошибки, fallback
-и отсутствие подходящих шагов. Выполнение, HR-экран, добавочный импорт JSON/CSV и запуск одной командой реализованы.
-Впереди интеграция с реальным AI и финальная проверка решения команды.
+Both participants' components are implemented. The AI Engine is frozen; FastAPI
+now uses RealAIEngineAdapter. Final defense acceptance remains pending. Application status reflects commit 653c6a3.
 
-## Участник 1 — AI engine
+## Project setup
 
-Ветка: `feat/ai-engine`. Владение: `backend/app/engine/`, тесты движка и документация алгоритма.
+- [x] Career Quest selection and mandatory requirements.
+- [x] GitHub repository and participant branches.
+- [x] Dataset analysis, relationships, constraints and documented ambiguities.
 
-- Загрузка и проверка схемы датасета.
-- Восстановление навыков с учётом даты последней оценки.
-- Требования следующего грейда, критические навыки и дефициты.
-- Фильтрация допустимых активностей и многофакторное ранжирование.
-- LLM-объяснение с проверкой фактов и идентификаторов.
-- Симуляция изменения навыков после активности.
-- Проверка на новых профилях и сложных историях участия.
+## Participant 1 - AI Engine
 
-## Участник 2 — приложение
+Ownership: backend/app/engine/, tests/ and algorithm documentation; feat/ai-engine.
 
-Ветка: `feat/app-ui`. Владение: FastAPI, SQLite, `frontend/`, запуск и документация интерфейса.
+- [x] JSON/CSV loading and supported imported profiles.
+- [x] Current skill reconstruction after last_review_date using gain/max_level.
+- [x] Trajectory/gap engine, next-grade requirements, career targets and critical gaps.
+- [x] Eligibility: role, grade, prerequisites, availability and completion history.
+- [x] Deterministic multifactor ranking with score_breakdown.
+- [x] Career Digital Twin and skills/readiness before-after.
+- [x] WHY THIS / WHY NOT and independent-evidence Recommendation Critic.
+- [x] Optional OpenAI explanation and deterministic fallback.
+- [x] AI, jury/adversarial, review-date and JSON-serialization tests.
+- [x] Public recommend entry point and complete response example.
 
-- API и хранение профилей, истории и результатов выполнения.
-- Серверное разграничение доступа сотрудник/HR — реализовано, см. `docs/access-control.md`.
-- Кабинет, траектория, карточки рекомендаций и симуляция — реализованы.
-- Выполнение активности с защитой от повторного начисления — реализовано в UI и API.
-- HR-экран и атомарный импорт JSON/CSV с проверкой — реализованы.
-- Состояния загрузки, ошибок, fallback и отсутствия рекомендаций — реализованы.
-- Запуск одной командой — `./start.sh`, реализовано.
+The AI suite previously passed 48 tests. Tests were not rerun during this documentation
+resolution. Full import-schema validation remains the application's responsibility;
+engine boundary checks are partial. No algorithm changes without agreement.
 
-## Граница интеграции
+## Participant 2 - application
 
-Первая версия входных и выходных схем зафиксирована в `docs/api-contract.md` и
-`backend/app/schemas.py`; адаптер движка — `backend/app/engine_port.py`.
+Ownership: FastAPI, SQLite, frontend/, auth, HTTP contract and startup; feat/app-ui.
 
-Движок получает профиль, историю, каталог мероприятий, каталог навыков и расчётную дату аргументами. Это позволяет работать с импортированными данными без изменения исходных файлов. Сохранением управляет приложение. Формулы роста навыков и расчёта прогресса находятся только в движке.
+- [x] FastAPI and SQLite: profiles, catalog, history, simulations and completions.
+- [x] Validated transactional CLI import of the original dataset.
+- [x] Employee/HR authentication, sessions and server-side access control.
+- [x] React + TypeScript + Vite frontend and employee dashboard.
+- [x] Skills, history, trajectory UI and critical gaps.
+- [x] Recommendation cards and loading/error/empty/fallback states.
+- [x] Simulation/completion workflow with refreshed data.
+- [x] Idempotency, duplicate/concurrent completion protection and club sessions.
+- [x] HR analytics: common gaps, employees without recommendations, participation.
+- [x] Additive jury JSON profiles / CSV history import with preview and atomic validation.
+- [x] Engine Protocol and MockEngine with reconstructed skills.
+- [x] Application and browser tests for implemented workflows.
+- [x] One-command Unix startup: install, build, import and serve through start.sh.
 
-Frontend начинает с согласованных mock-ответов, использующих реальные идентификаторы и названия мероприятий. В течение первого часа разработки соединяем API с минимальным движком.
+Mock still returns catalog-order recommendations and null readiness/score. Browser
+API fixtures do not prove real AI integration. The launcher uses .venv/bin/python;
+native Windows needs manual commands or a later portability fix.
 
-## Порядок приоритетов
+## Remaining integration and acceptance
 
-1. Контракт и минимальный сквозной сценарий.
-2. Корректные навыки, дефициты и объяснимые рекомендации.
-3. Выполнение, HR, права и импорт проверочных профилей.
-4. Проверка полного сценария, README и воспроизводимый запуск.
-5. Дополнительные механики — только после обязательной части.
+- [x] Connect FastAPI to the REAL AI Engine via RealAIEngineAdapter.
+- [x] Map recommend(context), trajectory(context), simulate(context, request), including
+      current_skills, skill_changes, readiness and consistent target semantics.
+- [x] Expose WHY THIS / WHY NOT, readiness and explanation_source; keep score_breakdown/Critic in Python.
+- [ ] Validate completed_at versus original history/session date without double gains.
+- [ ] Run final integrated E2E tests with real backend, AI Engine and frontend.
+- [ ] Validate final defense scenario, including jury profiles, HR and access denial.
+- [ ] Verify final README commands and submission materials.
 
-## Приёмка
+## Integration ownership and sequence
 
-- Произвольный, в том числе импортированный сотрудник открывается в приложении.
-- Рекомендация учитывает минимум три фактора и не предлагает недоступные мероприятия.
-- Выполнение обновляет прогресс, повторный запрос не начисляет прирост второй раз.
-- Если следующего шага нет, отображается причина.
-- HR видит дефициты и статистику участия.
-- Сотрудник не получает доступ к чужим данным через API.
-- README описывает фактическую реализацию, ограничения и повторяемый сценарий проверки.
+Both contracts are in docs/api-contract.md. The engine owns skill, gap, ranking and
+readiness calculations. The application owns authorization, transactions, idempotency,
+session selection, validation and persistence. Stored skills remain the review snapshot.
+
+1. Implement the adapter outside backend/app/engine/ using use_llm=False.
+2. Verify E0002, EV_005 and readiness 62 to 66 at the dataset snapshot.
+3. Verify recommendation -> simulation -> valid completion -> refreshed skills,
+   history, trajectory and recommendations, including duplicate/empty cases.
+4. Verify jury imports, date boundaries, employee isolation and HR aggregation.
+5. Run both Python suites, frontend build, browser tests and real integrated E2E.
+6. Verify optional LLM failure preserves deterministic selection and explanations;
+   avoid LLM calls per employee in HR aggregation.
+7. Validate the defense scenario and final README before submission.
+
+## Integration validation results
+
+- Python: 137 passed (48 frozen AI tests, 89 application/integration tests), plus
+  200 dataset subtests. All 200 profiles also pass adapter consistency validation.
+- E0002: EV_005, score 5.408333, readiness 62 -> 66.
+- Completion/replay: history grows once, stored assessment remains unchanged,
+  reconstructed skills and recommendations recalculate; repeated key replays the result.
+- Frontend: production build passed; 15 Playwright scenarios passed, including AI cards.
+- Frozen backend/app/engine/ has no changes. No commit or push performed.
+
+The separate final defense scenario, real-browser/live-server E2E and submission
+verification remain pending. Scheduled completion-date mismatches return explicit
+422 rather than guessing dates; native Windows launcher portability remains pending.

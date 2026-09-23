@@ -1,0 +1,2662 @@
+[
+  {
+    "employee_id": "E0001",
+    "current_grade": "Junior",
+    "target": {
+      "role": "Backend Engineer",
+      "grade": "Middle"
+    },
+    "recommendations": [
+      {
+        "event_id": "EV_005",
+        "title": "System Design Fundamentals",
+        "score": 4.383333,
+        "score_components": {
+          "gap_reduction": 2,
+          "critical_bonus": 2,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.333333,
+          "efficiency_modifier": 0.05
+        },
+        "score_breakdown": {
+          "gap_impact": 2,
+          "critical_gap_impact": 2,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.333333,
+          "efficiency_modifier": 0.05,
+          "final_score": 4.383333
+        },
+        "duration_hours": 16,
+        "next_session": "2026-11-23",
+        "facts": {
+          "current_role": "Backend Engineer",
+          "current_grade": "Junior",
+          "target_role": "Backend Engineer",
+          "target_grade": "Middle",
+          "skill_changes": [
+            {
+              "skill_id": "SK_API_DESIGN",
+              "before": 2,
+              "after": 3,
+              "required": 3,
+              "critical": true
+            },
+            {
+              "skill_id": "SK_SYSTEM_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 2,
+              "critical": false
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_API_DESIGN",
+              "before": 2,
+              "after": 3,
+              "required": 3,
+              "critical": true
+            },
+            {
+              "skill_id": "SK_SYSTEM_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 2,
+              "critical": false
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Backend Engineer",
+            "grade": "Junior",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "QA Engineer"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle"
+            ],
+            "prerequisites": {},
+            "format": "online",
+            "next_session": "2026-11-23"
+          },
+          "target_fit": {
+            "career_goal": {
+              "target_role": "Backend Engineer",
+              "target_grade": "Middle"
+            },
+            "target_role": "Backend Engineer",
+            "target_grade": "Middle",
+            "source": "career_goal",
+            "skill_changes": [
+              {
+                "skill_id": "SK_API_DESIGN",
+                "before": 2,
+                "after": 3,
+                "required": 3,
+                "critical": true
+              },
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 2,
+                "critical": false
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "applied",
+            "mapped_target": {
+              "role": "Backend Engineer",
+              "grade": "Middle"
+            },
+            "modifier": 0.333333,
+            "gap_reduction": 2,
+            "reason": "Event reduces required skill gaps in the explicit target role profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 1,
+            "next_grade_critical_reduction": 1,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_API_DESIGN",
+                "before": 2,
+                "after": 3,
+                "required": 3,
+                "critical": true
+              },
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 2,
+                "critical": false
+              }
+            ],
+            "next_target": {
+              "role": "Backend Engineer",
+              "grade": "Middle",
+              "required_skills": {
+                "SK_PYTHON": 3,
+                "SK_SQL": 3,
+                "SK_API_DESIGN": 3,
+                "SK_SYSTEM_DESIGN": 2,
+                "SK_CLOUD": 2,
+                "SK_CONTAINERS": 2,
+                "SK_CICD": 2,
+                "SK_APP_SECURITY": 2,
+                "SK_OBSERVABILITY": 2,
+                "SK_COMMUNICATION": 3,
+                "SK_TEAMWORK": 3,
+                "SK_PROBLEM_SOLVING": 3,
+                "SK_MENTORING": 1,
+                "SK_STAKEHOLDER_MGMT": 1,
+                "SK_PUBLIC_SPEAKING": 1
+              },
+              "critical_skills": [
+                "SK_PYTHON",
+                "SK_API_DESIGN"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "gain": 1,
+                "max_level": 3
+              },
+              {
+                "skill_id": "SK_API_DESIGN",
+                "gain": 1,
+                "max_level": 3
+              }
+            ],
+            "duration_hours": 16,
+            "readiness_delta": 6.06
+          }
+        },
+        "skills_before": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 2,
+          "SK_API_DESIGN": 2,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 1,
+          "SK_CONTAINERS": 0,
+          "SK_CICD": 1,
+          "SK_APP_SECURITY": 1,
+          "SK_OBSERVABILITY": 0,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 0,
+          "SK_WRITTEN_COMMUNICATION": 3,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 0,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 2,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 2,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 2,
+          "SK_ADAPTABILITY": 2
+        },
+        "skills_after": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 2,
+          "SK_API_DESIGN": 3,
+          "SK_SYSTEM_DESIGN": 2,
+          "SK_CLOUD": 1,
+          "SK_CONTAINERS": 0,
+          "SK_CICD": 1,
+          "SK_APP_SECURITY": 1,
+          "SK_OBSERVABILITY": 0,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 0,
+          "SK_WRITTEN_COMMUNICATION": 3,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 0,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 2,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 2,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 2,
+          "SK_ADAPTABILITY": 2
+        },
+        "readiness_before": 54.55,
+        "readiness_after": 60.61,
+        "readiness_delta": 6.06,
+        "next_grade_readiness_before": 54.55,
+        "next_grade_readiness_after": 60.61,
+        "gaps_after": [
+          {
+            "skill_id": "SK_SQL",
+            "name": "SQL",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CLOUD",
+            "name": "Cloud Platforms",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONTAINERS",
+            "name": "Containers & Orchestration",
+            "current": 0,
+            "required": 2,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CICD",
+            "name": "CI/CD",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_APP_SECURITY",
+            "name": "Application Security",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_OBSERVABILITY",
+            "name": "Observability",
+            "current": 0,
+            "required": 2,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_COMMUNICATION",
+            "name": "Communication",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_TEAMWORK",
+            "name": "Teamwork",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PROBLEM_SOLVING",
+            "name": "Problem Solving",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 0,
+            "required": 1,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PUBLIC_SPEAKING",
+            "name": "Public Speaking",
+            "current": 0,
+            "required": 1,
+            "gap": 1,
+            "critical": false
+          }
+        ],
+        "critical_gaps_after": [],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 60.61,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Backend Engineer / Junior. Цель: Backend Engineer / Middle. SK_API_DESIGN: 2 → 3, требуется 3 (критический); SK_SYSTEM_DESIGN: 1 → 2, требуется 2. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 54.55% → 60.61%. Трудозатраты: 16 ч.",
+        "counterfactual": {
+          "alternative_event_id": "EV_036",
+          "why_this": "Текущий профиль: Backend Engineer / Junior. Цель: Backend Engineer / Middle. SK_API_DESIGN: 2 → 3, требуется 3 (критический); SK_SYSTEM_DESIGN: 1 → 2, требуется 2. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 54.55% → 60.61%. Трудозатраты: 16 ч.",
+          "why_not": "Score 4.383333 против 1.266667; разница компонентов (выбранная − альтернатива): {'gap_impact': 1, 'critical_gap_impact': 2, 'history_modifier': 0.0, 'career_goal_modifier': 0.166666, 'efficiency_modifier': -0.05}.",
+          "score_margin": 3.116666,
+          "component_deltas": {
+            "gap_impact": 1,
+            "critical_gap_impact": 2,
+            "history_modifier": 0.0,
+            "career_goal_modifier": 0.166666,
+            "efficiency_modifier": -0.05
+          },
+          "alternative_readiness_after": 57.58
+        },
+        "explanation_card": {
+          "source": "deterministic",
+          "fallback_reason": "disabled",
+          "explanation": "Следующий шаг: System Design Fundamentals.",
+          "why_this": "SK_API_DESIGN: 2 → 3 / 3; SK_SYSTEM_DESIGN: 1 → 2 / 2. Критический вклад: 2; поправка истории: 0.0.",
+          "why_not": "EV_036: score 1.266667 против 4.383333. Разница: gap_impact +1, critical_gap_impact +2, career_goal_modifier +0.166666, efficiency_modifier -0.05.",
+          "expected_career_impact": "Соответствие цели Backend Engineer / Middle: 54.55% → 60.61%.",
+          "caution": "Нет истории похожих активностей; предпочтения пока неизвестны."
+        }
+      },
+      {
+        "event_id": "EV_036",
+        "title": "Public Speaking Club",
+        "score": 1.266667,
+        "score_components": {
+          "gap_reduction": 1,
+          "critical_bonus": 0,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.1
+        },
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.1,
+          "final_score": 1.266667
+        },
+        "duration_hours": 2,
+        "next_session": "2026-10-08",
+        "facts": {
+          "current_role": "Backend Engineer",
+          "current_grade": "Junior",
+          "target_role": "Backend Engineer",
+          "target_grade": "Middle",
+          "skill_changes": [
+            {
+              "skill_id": "SK_PUBLIC_SPEAKING",
+              "before": 0,
+              "after": 1,
+              "required": 1,
+              "critical": false
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_PUBLIC_SPEAKING",
+              "before": 0,
+              "after": 1,
+              "required": 1,
+              "critical": false
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Backend Engineer",
+            "grade": "Junior",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "Data Analyst",
+              "QA Engineer",
+              "Product Manager",
+              "HR Business Partner",
+              "Sales Manager",
+              "Customer Support Specialist"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle",
+              "Senior",
+              "Lead"
+            ],
+            "prerequisites": {},
+            "format": "offline",
+            "next_session": "2026-10-08"
+          },
+          "target_fit": {
+            "career_goal": {
+              "target_role": "Backend Engineer",
+              "target_grade": "Middle"
+            },
+            "target_role": "Backend Engineer",
+            "target_grade": "Middle",
+            "source": "career_goal",
+            "skill_changes": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "before": 0,
+                "after": 1,
+                "required": 1,
+                "critical": false
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "applied",
+            "mapped_target": {
+              "role": "Backend Engineer",
+              "grade": "Middle"
+            },
+            "modifier": 0.166667,
+            "gap_reduction": 1,
+            "reason": "Event reduces required skill gaps in the explicit target role profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 0,
+            "next_grade_critical_reduction": 0,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "before": 0,
+                "after": 1,
+                "required": 1,
+                "critical": false
+              }
+            ],
+            "next_target": {
+              "role": "Backend Engineer",
+              "grade": "Middle",
+              "required_skills": {
+                "SK_PYTHON": 3,
+                "SK_SQL": 3,
+                "SK_API_DESIGN": 3,
+                "SK_SYSTEM_DESIGN": 2,
+                "SK_CLOUD": 2,
+                "SK_CONTAINERS": 2,
+                "SK_CICD": 2,
+                "SK_APP_SECURITY": 2,
+                "SK_OBSERVABILITY": 2,
+                "SK_COMMUNICATION": 3,
+                "SK_TEAMWORK": 3,
+                "SK_PROBLEM_SOLVING": 3,
+                "SK_MENTORING": 1,
+                "SK_STAKEHOLDER_MGMT": 1,
+                "SK_PUBLIC_SPEAKING": 1
+              },
+              "critical_skills": [
+                "SK_PYTHON",
+                "SK_API_DESIGN"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "gain": 1,
+                "max_level": 4
+              }
+            ],
+            "duration_hours": 2,
+            "readiness_delta": 3.03
+          }
+        },
+        "skills_before": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 2,
+          "SK_API_DESIGN": 2,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 1,
+          "SK_CONTAINERS": 0,
+          "SK_CICD": 1,
+          "SK_APP_SECURITY": 1,
+          "SK_OBSERVABILITY": 0,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 0,
+          "SK_WRITTEN_COMMUNICATION": 3,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 0,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 2,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 2,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 2,
+          "SK_ADAPTABILITY": 2
+        },
+        "skills_after": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 2,
+          "SK_API_DESIGN": 2,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 1,
+          "SK_CONTAINERS": 0,
+          "SK_CICD": 1,
+          "SK_APP_SECURITY": 1,
+          "SK_OBSERVABILITY": 0,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 3,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 0,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 2,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 2,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 2,
+          "SK_ADAPTABILITY": 2
+        },
+        "readiness_before": 54.55,
+        "readiness_after": 57.58,
+        "readiness_delta": 3.03,
+        "next_grade_readiness_before": 54.55,
+        "next_grade_readiness_after": 57.58,
+        "gaps_after": [
+          {
+            "skill_id": "SK_SQL",
+            "name": "SQL",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_API_DESIGN",
+            "name": "API Design",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_SYSTEM_DESIGN",
+            "name": "System Design",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CLOUD",
+            "name": "Cloud Platforms",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONTAINERS",
+            "name": "Containers & Orchestration",
+            "current": 0,
+            "required": 2,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CICD",
+            "name": "CI/CD",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_APP_SECURITY",
+            "name": "Application Security",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_OBSERVABILITY",
+            "name": "Observability",
+            "current": 0,
+            "required": 2,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_COMMUNICATION",
+            "name": "Communication",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_TEAMWORK",
+            "name": "Teamwork",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PROBLEM_SOLVING",
+            "name": "Problem Solving",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 0,
+            "required": 1,
+            "gap": 1,
+            "critical": false
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_API_DESIGN"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 57.58,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Backend Engineer / Junior. Цель: Backend Engineer / Middle. SK_PUBLIC_SPEAKING: 0 → 1, требуется 1. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 54.55% → 57.58%. Трудозатраты: 2 ч."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "employee_id": "E0002",
+    "current_grade": "Middle",
+    "target": {
+      "role": "Backend Engineer",
+      "grade": "Senior"
+    },
+    "recommendations": [
+      {
+        "event_id": "EV_005",
+        "title": "System Design Fundamentals",
+        "score": 5.408333,
+        "score_components": {
+          "gap_reduction": 2,
+          "critical_bonus": 4,
+          "history_penalty": -1.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.333333,
+          "efficiency_modifier": 0.075
+        },
+        "score_breakdown": {
+          "gap_impact": 2,
+          "critical_gap_impact": 4,
+          "history_modifier": -1.0,
+          "career_goal_modifier": 0.333333,
+          "efficiency_modifier": 0.075,
+          "final_score": 5.408333
+        },
+        "duration_hours": 16,
+        "next_session": "2026-11-23",
+        "facts": {
+          "current_role": "Backend Engineer",
+          "current_grade": "Middle",
+          "target_role": "Backend Engineer",
+          "target_grade": "Senior",
+          "skill_changes": [
+            {
+              "skill_id": "SK_API_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 4,
+              "critical": true
+            },
+            {
+              "skill_id": "SK_SYSTEM_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 4,
+              "critical": true
+            }
+          ],
+          "similar_history_count": 1,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_API_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 4,
+              "critical": true
+            },
+            {
+              "skill_id": "SK_SYSTEM_DESIGN",
+              "before": 1,
+              "after": 2,
+              "required": 4,
+              "critical": true
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 1
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Backend Engineer",
+            "grade": "Middle",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "QA Engineer"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle"
+            ],
+            "prerequisites": {},
+            "format": "online",
+            "next_session": "2026-11-23"
+          },
+          "target_fit": {
+            "career_goal": {
+              "target_role": "Backend Engineer",
+              "target_grade": "Senior"
+            },
+            "target_role": "Backend Engineer",
+            "target_grade": "Senior",
+            "source": "career_goal",
+            "skill_changes": [
+              {
+                "skill_id": "SK_API_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 4,
+                "critical": true
+              },
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 4,
+                "critical": true
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "applied",
+            "mapped_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior"
+            },
+            "modifier": 0.333333,
+            "gap_reduction": 2,
+            "reason": "Event reduces required skill gaps in the explicit target role profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 2,
+            "next_grade_critical_reduction": 2,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_API_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 4,
+                "critical": true
+              },
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "before": 1,
+                "after": 2,
+                "required": 4,
+                "critical": true
+              }
+            ],
+            "next_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior",
+              "required_skills": {
+                "SK_PYTHON": 4,
+                "SK_SQL": 4,
+                "SK_API_DESIGN": 4,
+                "SK_SYSTEM_DESIGN": 4,
+                "SK_CLOUD": 3,
+                "SK_CONTAINERS": 3,
+                "SK_CICD": 3,
+                "SK_APP_SECURITY": 3,
+                "SK_OBSERVABILITY": 3,
+                "SK_COMMUNICATION": 3,
+                "SK_TEAMWORK": 3,
+                "SK_PROBLEM_SOLVING": 4,
+                "SK_MENTORING": 3,
+                "SK_LEADERSHIP": 2,
+                "SK_STAKEHOLDER_MGMT": 2,
+                "SK_PUBLIC_SPEAKING": 2
+              },
+              "critical_skills": [
+                "SK_SYSTEM_DESIGN",
+                "SK_API_DESIGN"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [
+              "R000269"
+            ],
+            "count": 1,
+            "completed": 0,
+            "negative": 1
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_SYSTEM_DESIGN",
+                "gain": 1,
+                "max_level": 3
+              },
+              {
+                "skill_id": "SK_API_DESIGN",
+                "gain": 1,
+                "max_level": 3
+              }
+            ],
+            "duration_hours": 16,
+            "readiness_delta": 4.0
+          }
+        },
+        "skills_before": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 1,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 2,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "skills_after": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 2,
+          "SK_SYSTEM_DESIGN": 2,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 2,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 66.0,
+        "readiness_delta": 4.0,
+        "next_grade_readiness_before": 62.0,
+        "next_grade_readiness_after": 66.0,
+        "gaps_after": [
+          {
+            "skill_id": "SK_PYTHON",
+            "name": "Python",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_SQL",
+            "name": "SQL",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_API_DESIGN",
+            "name": "API Design",
+            "current": 2,
+            "required": 4,
+            "gap": 2,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_SYSTEM_DESIGN",
+            "name": "System Design",
+            "current": 2,
+            "required": 4,
+            "gap": 2,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_CLOUD",
+            "name": "Cloud Platforms",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONTAINERS",
+            "name": "Containers & Orchestration",
+            "current": 1,
+            "required": 3,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CICD",
+            "name": "CI/CD",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_APP_SECURITY",
+            "name": "Application Security",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_OBSERVABILITY",
+            "name": "Observability",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_COMMUNICATION",
+            "name": "Communication",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_LEADERSHIP",
+            "name": "Leadership",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_STAKEHOLDER_MGMT",
+            "name": "Stakeholder Management",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PUBLIC_SPEAKING",
+            "name": "Public Speaking",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_API_DESIGN",
+          "SK_SYSTEM_DESIGN"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 66.0,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "verified",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "participation",
+            "activity_impact"
+          ],
+          "factor_count": 4,
+          "errors": [],
+          "history_evidence_available": true
+        },
+        "explanation": "Текущий профиль: Backend Engineer / Middle. Цель: Backend Engineer / Senior. SK_API_DESIGN: 1 → 2, требуется 4 (критический); SK_SYSTEM_DESIGN: 1 → 2, требуется 4 (критический). Похожих записей среди последних 30: 1; завершено 0, пропущено/отклонено/прекращено 1. Соответствие требованиям: 62.0% → 66.0%. Трудозатраты: 16 ч.",
+        "counterfactual": {
+          "alternative_event_id": "EV_036",
+          "why_this": "Текущий профиль: Backend Engineer / Middle. Цель: Backend Engineer / Senior. SK_API_DESIGN: 1 → 2, требуется 4 (критический); SK_SYSTEM_DESIGN: 1 → 2, требуется 4 (критический). Похожих записей среди последних 30: 1; завершено 0, пропущено/отклонено/прекращено 1. Соответствие требованиям: 62.0% → 66.0%. Трудозатраты: 16 ч.",
+          "why_not": "Score 5.408333 против 1.266667; разница компонентов (выбранная − альтернатива): {'gap_impact': 1, 'critical_gap_impact': 4, 'history_modifier': -1.0, 'career_goal_modifier': 0.166666, 'efficiency_modifier': -0.025}.",
+          "score_margin": 4.141666,
+          "component_deltas": {
+            "gap_impact": 1,
+            "critical_gap_impact": 4,
+            "history_modifier": -1.0,
+            "career_goal_modifier": 0.166666,
+            "efficiency_modifier": -0.025
+          },
+          "alternative_readiness_after": 64.0
+        },
+        "explanation_card": {
+          "source": "deterministic",
+          "fallback_reason": "disabled",
+          "explanation": "Следующий шаг: System Design Fundamentals.",
+          "why_this": "SK_API_DESIGN: 1 → 2 / 4; SK_SYSTEM_DESIGN: 1 → 2 / 4. Критический вклад: 4; поправка истории: -1.0.",
+          "why_not": "EV_036: score 1.266667 против 5.408333. Разница: gap_impact +1, critical_gap_impact +4, history_modifier -1, career_goal_modifier +0.166666, efficiency_modifier -0.025.",
+          "expected_career_impact": "Соответствие цели Backend Engineer / Senior: 62.0% → 66.0%.",
+          "caution": "Есть пропуски/отказы похожих активностей; стоит уточнить удобный формат."
+        }
+      },
+      {
+        "event_id": "EV_036",
+        "title": "Public Speaking Club",
+        "score": 1.266667,
+        "score_components": {
+          "gap_reduction": 1,
+          "critical_bonus": 0,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.1
+        },
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.1,
+          "final_score": 1.266667
+        },
+        "duration_hours": 2,
+        "next_session": "2026-10-08",
+        "facts": {
+          "current_role": "Backend Engineer",
+          "current_grade": "Middle",
+          "target_role": "Backend Engineer",
+          "target_grade": "Senior",
+          "skill_changes": [
+            {
+              "skill_id": "SK_PUBLIC_SPEAKING",
+              "before": 1,
+              "after": 2,
+              "required": 2,
+              "critical": false
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_PUBLIC_SPEAKING",
+              "before": 1,
+              "after": 2,
+              "required": 2,
+              "critical": false
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Backend Engineer",
+            "grade": "Middle",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "Data Analyst",
+              "QA Engineer",
+              "Product Manager",
+              "HR Business Partner",
+              "Sales Manager",
+              "Customer Support Specialist"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle",
+              "Senior",
+              "Lead"
+            ],
+            "prerequisites": {},
+            "format": "offline",
+            "next_session": "2026-10-08"
+          },
+          "target_fit": {
+            "career_goal": {
+              "target_role": "Backend Engineer",
+              "target_grade": "Senior"
+            },
+            "target_role": "Backend Engineer",
+            "target_grade": "Senior",
+            "source": "career_goal",
+            "skill_changes": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "before": 1,
+                "after": 2,
+                "required": 2,
+                "critical": false
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "applied",
+            "mapped_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior"
+            },
+            "modifier": 0.166667,
+            "gap_reduction": 1,
+            "reason": "Event reduces required skill gaps in the explicit target role profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 0,
+            "next_grade_critical_reduction": 0,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "before": 1,
+                "after": 2,
+                "required": 2,
+                "critical": false
+              }
+            ],
+            "next_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior",
+              "required_skills": {
+                "SK_PYTHON": 4,
+                "SK_SQL": 4,
+                "SK_API_DESIGN": 4,
+                "SK_SYSTEM_DESIGN": 4,
+                "SK_CLOUD": 3,
+                "SK_CONTAINERS": 3,
+                "SK_CICD": 3,
+                "SK_APP_SECURITY": 3,
+                "SK_OBSERVABILITY": 3,
+                "SK_COMMUNICATION": 3,
+                "SK_TEAMWORK": 3,
+                "SK_PROBLEM_SOLVING": 4,
+                "SK_MENTORING": 3,
+                "SK_LEADERSHIP": 2,
+                "SK_STAKEHOLDER_MGMT": 2,
+                "SK_PUBLIC_SPEAKING": 2
+              },
+              "critical_skills": [
+                "SK_SYSTEM_DESIGN",
+                "SK_API_DESIGN"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_PUBLIC_SPEAKING",
+                "gain": 1,
+                "max_level": 4
+              }
+            ],
+            "duration_hours": 2,
+            "readiness_delta": 2.0
+          }
+        },
+        "skills_before": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 1,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 2,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "skills_after": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 1,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 2,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 2,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 64.0,
+        "readiness_delta": 2.0,
+        "next_grade_readiness_before": 62.0,
+        "next_grade_readiness_after": 64.0,
+        "gaps_after": [
+          {
+            "skill_id": "SK_PYTHON",
+            "name": "Python",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_SQL",
+            "name": "SQL",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_API_DESIGN",
+            "name": "API Design",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_SYSTEM_DESIGN",
+            "name": "System Design",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_CLOUD",
+            "name": "Cloud Platforms",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONTAINERS",
+            "name": "Containers & Orchestration",
+            "current": 1,
+            "required": 3,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CICD",
+            "name": "CI/CD",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_APP_SECURITY",
+            "name": "Application Security",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_OBSERVABILITY",
+            "name": "Observability",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_COMMUNICATION",
+            "name": "Communication",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_LEADERSHIP",
+            "name": "Leadership",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_STAKEHOLDER_MGMT",
+            "name": "Stakeholder Management",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_API_DESIGN",
+          "SK_SYSTEM_DESIGN"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 64.0,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Backend Engineer / Middle. Цель: Backend Engineer / Senior. SK_PUBLIC_SPEAKING: 1 → 2, требуется 2. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 62.0% → 64.0%. Трудозатраты: 2 ч."
+      },
+      {
+        "event_id": "EV_011",
+        "title": "Secure Coding Workshop",
+        "score": 1.2,
+        "score_components": {
+          "gap_reduction": 1,
+          "critical_bonus": 0,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.033333
+        },
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.166667,
+          "efficiency_modifier": 0.033333,
+          "final_score": 1.2
+        },
+        "duration_hours": 6,
+        "next_session": "2026-11-23",
+        "facts": {
+          "current_role": "Backend Engineer",
+          "current_grade": "Middle",
+          "target_role": "Backend Engineer",
+          "target_grade": "Senior",
+          "skill_changes": [
+            {
+              "skill_id": "SK_APP_SECURITY",
+              "before": 2,
+              "after": 3,
+              "required": 3,
+              "critical": false
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_APP_SECURITY",
+              "before": 2,
+              "after": 3,
+              "required": 3,
+              "critical": false
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Backend Engineer",
+            "grade": "Middle",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "QA Engineer"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle",
+              "Senior",
+              "Lead"
+            ],
+            "prerequisites": {},
+            "format": "offline",
+            "next_session": "2026-11-23"
+          },
+          "target_fit": {
+            "career_goal": {
+              "target_role": "Backend Engineer",
+              "target_grade": "Senior"
+            },
+            "target_role": "Backend Engineer",
+            "target_grade": "Senior",
+            "source": "career_goal",
+            "skill_changes": [
+              {
+                "skill_id": "SK_APP_SECURITY",
+                "before": 2,
+                "after": 3,
+                "required": 3,
+                "critical": false
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "applied",
+            "mapped_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior"
+            },
+            "modifier": 0.166667,
+            "gap_reduction": 1,
+            "reason": "Event reduces required skill gaps in the explicit target role profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 0,
+            "next_grade_critical_reduction": 0,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_APP_SECURITY",
+                "before": 2,
+                "after": 3,
+                "required": 3,
+                "critical": false
+              }
+            ],
+            "next_target": {
+              "role": "Backend Engineer",
+              "grade": "Senior",
+              "required_skills": {
+                "SK_PYTHON": 4,
+                "SK_SQL": 4,
+                "SK_API_DESIGN": 4,
+                "SK_SYSTEM_DESIGN": 4,
+                "SK_CLOUD": 3,
+                "SK_CONTAINERS": 3,
+                "SK_CICD": 3,
+                "SK_APP_SECURITY": 3,
+                "SK_OBSERVABILITY": 3,
+                "SK_COMMUNICATION": 3,
+                "SK_TEAMWORK": 3,
+                "SK_PROBLEM_SOLVING": 4,
+                "SK_MENTORING": 3,
+                "SK_LEADERSHIP": 2,
+                "SK_STAKEHOLDER_MGMT": 2,
+                "SK_PUBLIC_SPEAKING": 2
+              },
+              "critical_skills": [
+                "SK_SYSTEM_DESIGN",
+                "SK_API_DESIGN"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_APP_SECURITY",
+                "gain": 1,
+                "max_level": 4
+              }
+            ],
+            "duration_hours": 6,
+            "readiness_delta": 2.0
+          }
+        },
+        "skills_before": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 1,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 2,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "skills_after": {
+          "SK_PYTHON": 3,
+          "SK_SQL": 3,
+          "SK_API_DESIGN": 1,
+          "SK_SYSTEM_DESIGN": 1,
+          "SK_CLOUD": 2,
+          "SK_CONTAINERS": 1,
+          "SK_CICD": 2,
+          "SK_APP_SECURITY": 3,
+          "SK_OBSERVABILITY": 2,
+          "SK_API_TESTING": 1,
+          "SK_PROSPECTING": 1,
+          "SK_COMMUNICATION": 2,
+          "SK_PUBLIC_SPEAKING": 1,
+          "SK_WRITTEN_COMMUNICATION": 1,
+          "SK_STAKEHOLDER_MGMT": 1,
+          "SK_LEADERSHIP": 1,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 3,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 2,
+          "SK_PROBLEM_SOLVING": 4,
+          "SK_CRITICAL_THINKING": 3,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 1
+        },
+        "readiness_before": 62.0,
+        "readiness_after": 64.0,
+        "readiness_delta": 2.0,
+        "next_grade_readiness_before": 62.0,
+        "next_grade_readiness_after": 64.0,
+        "gaps_after": [
+          {
+            "skill_id": "SK_PYTHON",
+            "name": "Python",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_SQL",
+            "name": "SQL",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_API_DESIGN",
+            "name": "API Design",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_SYSTEM_DESIGN",
+            "name": "System Design",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_CLOUD",
+            "name": "Cloud Platforms",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONTAINERS",
+            "name": "Containers & Orchestration",
+            "current": 1,
+            "required": 3,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CICD",
+            "name": "CI/CD",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_OBSERVABILITY",
+            "name": "Observability",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_COMMUNICATION",
+            "name": "Communication",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_LEADERSHIP",
+            "name": "Leadership",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_STAKEHOLDER_MGMT",
+            "name": "Stakeholder Management",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PUBLIC_SPEAKING",
+            "name": "Public Speaking",
+            "current": 1,
+            "required": 2,
+            "gap": 1,
+            "critical": false
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_API_DESIGN",
+          "SK_SYSTEM_DESIGN"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 64.0,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Backend Engineer / Middle. Цель: Backend Engineer / Senior. SK_APP_SECURITY: 2 → 3, требуется 3. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 62.0% → 64.0%. Трудозатраты: 6 ч."
+      }
+    ],
+    "warnings": [
+      "Completion date unavailable; enrollment date used: R000814",
+      "Completion date unavailable; enrollment date used: R002095"
+    ]
+  },
+  {
+    "employee_id": "E0003",
+    "current_grade": "Senior",
+    "target": {
+      "role": "Customer Support Specialist",
+      "grade": "Lead"
+    },
+    "recommendations": [
+      {
+        "event_id": "EV_038",
+        "title": "Leadership Foundations",
+        "score": 4.05,
+        "score_components": {
+          "gap_reduction": 2,
+          "critical_bonus": 2,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.0,
+          "efficiency_modifier": 0.05
+        },
+        "score_breakdown": {
+          "gap_impact": 2,
+          "critical_gap_impact": 2,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.0,
+          "efficiency_modifier": 0.05,
+          "final_score": 4.05
+        },
+        "duration_hours": 16,
+        "next_session": "2026-10-08",
+        "facts": {
+          "current_role": "Customer Support Specialist",
+          "current_grade": "Senior",
+          "target_role": "Customer Support Specialist",
+          "target_grade": "Lead",
+          "skill_changes": [
+            {
+              "skill_id": "SK_CONFLICT_RESOLUTION",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": false
+            },
+            {
+              "skill_id": "SK_LEADERSHIP",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": true
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_CONFLICT_RESOLUTION",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": false
+            },
+            {
+              "skill_id": "SK_LEADERSHIP",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": true
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Customer Support Specialist",
+            "grade": "Senior",
+            "target_roles": [
+              "Backend Engineer",
+              "Frontend Engineer",
+              "Data Analyst",
+              "QA Engineer",
+              "Product Manager",
+              "HR Business Partner",
+              "Sales Manager",
+              "Customer Support Specialist"
+            ],
+            "target_grades": [
+              "Senior",
+              "Lead"
+            ],
+            "prerequisites": {},
+            "format": "online",
+            "next_session": "2026-10-08"
+          },
+          "target_fit": {
+            "career_goal": null,
+            "target_role": "Customer Support Specialist",
+            "target_grade": "Lead",
+            "source": "grade_default",
+            "skill_changes": [
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": false
+              },
+              {
+                "skill_id": "SK_LEADERSHIP",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": true
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "unavailable",
+            "mapped_target": null,
+            "modifier": 0.0,
+            "gap_reduction": 0,
+            "reason": "No career_goal in profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 1,
+            "next_grade_critical_reduction": 1,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": false
+              },
+              {
+                "skill_id": "SK_LEADERSHIP",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": true
+              }
+            ],
+            "next_target": {
+              "role": "Customer Support Specialist",
+              "grade": "Lead",
+              "required_skills": {
+                "SK_CUSTOMER_SERVICE": 4,
+                "SK_TROUBLESHOOTING": 4,
+                "SK_PRODUCT_KNOWLEDGE": 4,
+                "SK_CRM": 3,
+                "SK_WRITTEN_COMMUNICATION": 4,
+                "SK_COMMUNICATION": 4,
+                "SK_CONFLICT_RESOLUTION": 4,
+                "SK_EMOTIONAL_INTELLIGENCE": 4,
+                "SK_TIME_MANAGEMENT": 4,
+                "SK_ADAPTABILITY": 3,
+                "SK_PROBLEM_SOLVING": 4,
+                "SK_MENTORING": 4,
+                "SK_LEADERSHIP": 4,
+                "SK_FEEDBACK": 3
+              },
+              "critical_skills": [
+                "SK_LEADERSHIP",
+                "SK_FEEDBACK"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_LEADERSHIP",
+                "gain": 1,
+                "max_level": 4
+              },
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "gain": 1,
+                "max_level": 4
+              },
+              {
+                "skill_id": "SK_STAKEHOLDER_MGMT",
+                "gain": 1,
+                "max_level": 4
+              }
+            ],
+            "duration_hours": 16,
+            "readiness_delta": 3.78
+          }
+        },
+        "skills_before": {
+          "SK_CRM": 2,
+          "SK_PRODUCT_KNOWLEDGE": 4,
+          "SK_CUSTOMER_SERVICE": 4,
+          "SK_TROUBLESHOOTING": 3,
+          "SK_COMMUNICATION": 4,
+          "SK_PUBLIC_SPEAKING": 3,
+          "SK_WRITTEN_COMMUNICATION": 4,
+          "SK_STAKEHOLDER_MGMT": 2,
+          "SK_LEADERSHIP": 2,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 2,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 4,
+          "SK_PROBLEM_SOLVING": 1,
+          "SK_CRITICAL_THINKING": 2,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 2
+        },
+        "skills_after": {
+          "SK_CRM": 2,
+          "SK_PRODUCT_KNOWLEDGE": 4,
+          "SK_CUSTOMER_SERVICE": 4,
+          "SK_TROUBLESHOOTING": 3,
+          "SK_COMMUNICATION": 4,
+          "SK_PUBLIC_SPEAKING": 3,
+          "SK_WRITTEN_COMMUNICATION": 4,
+          "SK_STAKEHOLDER_MGMT": 3,
+          "SK_LEADERSHIP": 3,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 4,
+          "SK_PROBLEM_SOLVING": 1,
+          "SK_CRITICAL_THINKING": 2,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 2
+        },
+        "readiness_before": 73.58,
+        "readiness_after": 77.36,
+        "readiness_delta": 3.78,
+        "next_grade_readiness_before": 73.58,
+        "next_grade_readiness_after": 77.36,
+        "gaps_after": [
+          {
+            "skill_id": "SK_TROUBLESHOOTING",
+            "name": "Technical Troubleshooting",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CRM",
+            "name": "CRM Systems",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONFLICT_RESOLUTION",
+            "name": "Conflict Resolution",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_TIME_MANAGEMENT",
+            "name": "Time Management",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_ADAPTABILITY",
+            "name": "Adaptability",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PROBLEM_SOLVING",
+            "name": "Problem Solving",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 2,
+            "required": 4,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_LEADERSHIP",
+            "name": "Leadership",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_FEEDBACK",
+            "name": "Feedback",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": true
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_LEADERSHIP",
+          "SK_FEEDBACK"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 77.36,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Customer Support Specialist / Senior. Цель: Customer Support Specialist / Lead. SK_CONFLICT_RESOLUTION: 2 → 3, требуется 4; SK_LEADERSHIP: 2 → 3, требуется 4 (критический). Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 73.58% → 77.36%. Трудозатраты: 16 ч.",
+        "counterfactual": {
+          "alternative_event_id": "EV_034",
+          "why_this": "Текущий профиль: Customer Support Specialist / Senior. Цель: Customer Support Specialist / Lead. SK_CONFLICT_RESOLUTION: 2 → 3, требуется 4; SK_LEADERSHIP: 2 → 3, требуется 4 (критический). Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 73.58% → 77.36%. Трудозатраты: 16 ч.",
+          "why_not": "Score 4.05 против 1.05; разница компонентов (выбранная − альтернатива): {'gap_impact': 1, 'critical_gap_impact': 2, 'history_modifier': 0.0, 'career_goal_modifier': 0.0, 'efficiency_modifier': 0.0}.",
+          "score_margin": 3.0,
+          "component_deltas": {
+            "gap_impact": 1,
+            "critical_gap_impact": 2,
+            "history_modifier": 0.0,
+            "career_goal_modifier": 0.0,
+            "efficiency_modifier": 0.0
+          },
+          "alternative_readiness_after": 75.47
+        },
+        "explanation_card": {
+          "source": "deterministic",
+          "fallback_reason": "disabled",
+          "explanation": "Следующий шаг: Leadership Foundations.",
+          "why_this": "SK_CONFLICT_RESOLUTION: 2 → 3 / 4; SK_LEADERSHIP: 2 → 3 / 4. Критический вклад: 2; поправка истории: 0.0.",
+          "why_not": "EV_034: score 1.05 против 4.05. Разница: gap_impact +1, critical_gap_impact +2.",
+          "expected_career_impact": "Соответствие цели Customer Support Specialist / Lead: 73.58% → 77.36%.",
+          "caution": "Нет истории похожих активностей; предпочтения пока неизвестны."
+        }
+      },
+      {
+        "event_id": "EV_034",
+        "title": "Handling Difficult Conversations",
+        "score": 1.05,
+        "score_components": {
+          "gap_reduction": 1,
+          "critical_bonus": 0,
+          "history_penalty": 0.0,
+          "completion_bonus": 0.0,
+          "career_goal_modifier": 0.0,
+          "efficiency_modifier": 0.05
+        },
+        "score_breakdown": {
+          "gap_impact": 1,
+          "critical_gap_impact": 0,
+          "history_modifier": 0.0,
+          "career_goal_modifier": 0.0,
+          "efficiency_modifier": 0.05,
+          "final_score": 1.05
+        },
+        "duration_hours": 4,
+        "next_session": "2026-10-16",
+        "facts": {
+          "current_role": "Customer Support Specialist",
+          "current_grade": "Senior",
+          "target_role": "Customer Support Specialist",
+          "target_grade": "Lead",
+          "skill_changes": [
+            {
+              "skill_id": "SK_CONFLICT_RESOLUTION",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": false
+            }
+          ],
+          "similar_history_count": 0,
+          "next_grade_changes": [
+            {
+              "skill_id": "SK_CONFLICT_RESOLUTION",
+              "before": 2,
+              "after": 3,
+              "required": 4,
+              "critical": false
+            }
+          ],
+          "similar_completed": 0,
+          "similar_negative": 0
+        },
+        "factors": {
+          "eligibility": {
+            "role": "Customer Support Specialist",
+            "grade": "Senior",
+            "target_roles": [
+              "Customer Support Specialist",
+              "Sales Manager",
+              "HR Business Partner"
+            ],
+            "target_grades": [
+              "Junior",
+              "Middle",
+              "Senior",
+              "Lead"
+            ],
+            "prerequisites": {},
+            "format": "online",
+            "next_session": "2026-10-16"
+          },
+          "target_fit": {
+            "career_goal": null,
+            "target_role": "Customer Support Specialist",
+            "target_grade": "Lead",
+            "source": "grade_default",
+            "skill_changes": [
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": false
+              }
+            ]
+          },
+          "career_goal": {
+            "status": "unavailable",
+            "mapped_target": null,
+            "modifier": 0.0,
+            "gap_reduction": 0,
+            "reason": "No career_goal in profile"
+          },
+          "criticality": {
+            "target_critical_reduction": 0,
+            "next_grade_critical_reduction": 0,
+            "next_grade_changes": [
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "before": 2,
+                "after": 3,
+                "required": 4,
+                "critical": false
+              }
+            ],
+            "next_target": {
+              "role": "Customer Support Specialist",
+              "grade": "Lead",
+              "required_skills": {
+                "SK_CUSTOMER_SERVICE": 4,
+                "SK_TROUBLESHOOTING": 4,
+                "SK_PRODUCT_KNOWLEDGE": 4,
+                "SK_CRM": 3,
+                "SK_WRITTEN_COMMUNICATION": 4,
+                "SK_COMMUNICATION": 4,
+                "SK_CONFLICT_RESOLUTION": 4,
+                "SK_EMOTIONAL_INTELLIGENCE": 4,
+                "SK_TIME_MANAGEMENT": 4,
+                "SK_ADAPTABILITY": 3,
+                "SK_PROBLEM_SOLVING": 4,
+                "SK_MENTORING": 4,
+                "SK_LEADERSHIP": 4,
+                "SK_FEEDBACK": 3
+              },
+              "critical_skills": [
+                "SK_LEADERSHIP",
+                "SK_FEEDBACK"
+              ]
+            }
+          },
+          "participation": {
+            "record_ids": [],
+            "count": 0,
+            "completed": 0,
+            "negative": 0
+          },
+          "activity_impact": {
+            "develops_skills": [
+              {
+                "skill_id": "SK_CONFLICT_RESOLUTION",
+                "gain": 1,
+                "max_level": 4
+              },
+              {
+                "skill_id": "SK_EMOTIONAL_INTELLIGENCE",
+                "gain": 1,
+                "max_level": 4
+              },
+              {
+                "skill_id": "SK_CUSTOMER_SERVICE",
+                "gain": 1,
+                "max_level": 4
+              }
+            ],
+            "duration_hours": 4,
+            "readiness_delta": 1.89
+          }
+        },
+        "skills_before": {
+          "SK_CRM": 2,
+          "SK_PRODUCT_KNOWLEDGE": 4,
+          "SK_CUSTOMER_SERVICE": 4,
+          "SK_TROUBLESHOOTING": 3,
+          "SK_COMMUNICATION": 4,
+          "SK_PUBLIC_SPEAKING": 3,
+          "SK_WRITTEN_COMMUNICATION": 4,
+          "SK_STAKEHOLDER_MGMT": 2,
+          "SK_LEADERSHIP": 2,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 2,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 4,
+          "SK_PROBLEM_SOLVING": 1,
+          "SK_CRITICAL_THINKING": 2,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 2
+        },
+        "skills_after": {
+          "SK_CRM": 2,
+          "SK_PRODUCT_KNOWLEDGE": 4,
+          "SK_CUSTOMER_SERVICE": 4,
+          "SK_TROUBLESHOOTING": 3,
+          "SK_COMMUNICATION": 4,
+          "SK_PUBLIC_SPEAKING": 3,
+          "SK_WRITTEN_COMMUNICATION": 4,
+          "SK_STAKEHOLDER_MGMT": 2,
+          "SK_LEADERSHIP": 2,
+          "SK_MENTORING": 2,
+          "SK_FEEDBACK": 2,
+          "SK_CONFLICT_RESOLUTION": 3,
+          "SK_TEAMWORK": 3,
+          "SK_EMOTIONAL_INTELLIGENCE": 4,
+          "SK_PROBLEM_SOLVING": 1,
+          "SK_CRITICAL_THINKING": 2,
+          "SK_TIME_MANAGEMENT": 3,
+          "SK_ADAPTABILITY": 2
+        },
+        "readiness_before": 73.58,
+        "readiness_after": 75.47,
+        "readiness_delta": 1.89,
+        "next_grade_readiness_before": 73.58,
+        "next_grade_readiness_after": 75.47,
+        "gaps_after": [
+          {
+            "skill_id": "SK_TROUBLESHOOTING",
+            "name": "Technical Troubleshooting",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CRM",
+            "name": "CRM Systems",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_CONFLICT_RESOLUTION",
+            "name": "Conflict Resolution",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_TIME_MANAGEMENT",
+            "name": "Time Management",
+            "current": 3,
+            "required": 4,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_ADAPTABILITY",
+            "name": "Adaptability",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_PROBLEM_SOLVING",
+            "name": "Problem Solving",
+            "current": 1,
+            "required": 4,
+            "gap": 3,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_MENTORING",
+            "name": "Mentoring",
+            "current": 2,
+            "required": 4,
+            "gap": 2,
+            "critical": false
+          },
+          {
+            "skill_id": "SK_LEADERSHIP",
+            "name": "Leadership",
+            "current": 2,
+            "required": 4,
+            "gap": 2,
+            "critical": true
+          },
+          {
+            "skill_id": "SK_FEEDBACK",
+            "name": "Feedback",
+            "current": 2,
+            "required": 3,
+            "gap": 1,
+            "critical": true
+          }
+        ],
+        "critical_gaps_after": [
+          "SK_LEADERSHIP",
+          "SK_FEEDBACK"
+        ],
+        "all_target_requirements_met_after": false,
+        "progress_after_pct": 75.47,
+        "critic": {
+          "passed": true,
+          "evidence_categories": [
+            {
+              "category": "eligibility_prerequisites_availability",
+              "status": "verified",
+              "independence_group": "eligibility"
+            },
+            {
+              "category": "requirement_skill_gap",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "criticality_or_career_relevance",
+              "status": "verified",
+              "independence_group": "target_fit"
+            },
+            {
+              "category": "participation_history",
+              "status": "unavailable",
+              "independence_group": "participation"
+            },
+            {
+              "category": "actual_event_gain",
+              "status": "verified",
+              "independence_group": "activity_impact"
+            }
+          ],
+          "warnings": [
+            "No similar participation evidence; history modifier is neutral."
+          ],
+          "independent_factors": [
+            "eligibility",
+            "target_fit",
+            "activity_impact"
+          ],
+          "factor_count": 3,
+          "errors": [],
+          "history_evidence_available": false
+        },
+        "explanation": "Текущий профиль: Customer Support Specialist / Senior. Цель: Customer Support Specialist / Lead. SK_CONFLICT_RESOLUTION: 2 → 3, требуется 4. Похожих записей среди последних 30: 0; завершено 0, пропущено/отклонено/прекращено 0. Соответствие требованиям: 73.58% → 75.47%. Трудозатраты: 4 ч."
+      }
+    ],
+    "warnings": []
+  }
+]

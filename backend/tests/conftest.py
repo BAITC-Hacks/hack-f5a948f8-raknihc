@@ -9,6 +9,7 @@ from backend.app.config import Settings
 from backend.app.auth import Auth
 from backend.app.import_dataset import import_dataset
 from backend.app.main import create_app
+from backend.app.mock_engine import MockEngine
 from backend.app.storage import Store
 
 TEST_PASSWORD = "test-only-password-2026"
@@ -76,6 +77,6 @@ def settings(tmp_path, dataset_dir):
 
 @pytest.fixture
 def client(settings):
-    with TestClient(create_app(settings)) as client:
+    with TestClient(create_app(settings, engine=MockEngine())) as client:
         sign_in(client)
         yield client

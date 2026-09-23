@@ -1,0 +1,2 @@
+# Optional; deterministic calculations and tests run without this package.
+openai>=1.109.1,<3

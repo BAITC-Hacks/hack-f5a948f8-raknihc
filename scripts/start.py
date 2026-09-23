@@ -27,8 +27,8 @@ def load_env(path):
         key, value = key.strip(), value.strip()
         if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
             value = value[1:-1]
-        if not key.startswith('CQ_'):
-            raise ValueError(f'{path.name}:{number}: only server-side CQ_ variables are supported')
+        if not key.startswith('CQ_') and key != 'OPENAI_API_KEY':
+            raise ValueError(f'{path.name}:{number}: only server-side CQ_* and OPENAI_API_KEY variables are supported')
         os.environ.setdefault(key, value)
 
 
@@ -105,7 +105,7 @@ def main():
         run('npm', 'ci', '--prefix', 'frontend')
         marker.write_text(expected)
     # No backend environment values are injected into the frontend build.
-    build_env = {key: value for key, value in os.environ.items() if not key.startswith(('CQ_', 'VITE_'))}
+    build_env = {key: value for key, value in os.environ.items() if not key.startswith(('CQ_', 'VITE_', 'OPENAI_'))}
     subprocess.run(['npm', 'run', 'build', '--prefix', 'frontend'], cwd=ROOT, env=build_env, check=True)
     sys.path.insert(0, str(ROOT))
     from backend.app.config import Settings

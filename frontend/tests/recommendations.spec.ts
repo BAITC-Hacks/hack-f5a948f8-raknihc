@@ -133,3 +133,23 @@ test('closing pending simulation ignores late response and supports mobile', asy
   await dialog.getByRole('button', { name: 'Вернуться к рекомендациям' }).click()
   await expect(dialog).toHaveCount(0)
 })
+
+
+test('real AI cards expose counterfactuals and readiness', async ({ page }) => {
+  await mockApi(page)
+  await page.route('**/recommendations', route => route.fulfill({ json: {
+    ...recommendations, mode: 'live', skills_basis: 'current', progress_pct: 62,
+    items: [{ ...recommendations.items[0], readiness_before: 62, readiness_after: 66,
+      why_this: 'Closes the critical design gap.', why_not: 'The alternative has lower critical gap impact.',
+      expected_career_impact: 'Readiness increases by four percentage points.',
+      caution: 'Readiness is not a promotion guarantee.', explanation_source: 'deterministic' }],
+  } }))
+  await openRecommendations(page)
+  const card = page.getByRole('article').first()
+  await expect(card.getByRole('heading', { name: 'WHY THIS', exact: true })).toBeVisible()
+  await expect(card.getByRole('heading', { name: 'WHY NOT', exact: true })).toBeVisible()
+  await expect(card.getByText('62%', { exact: true })).toBeVisible()
+  await expect(card.getByText('66%', { exact: true })).toBeVisible()
+  await expect(card.getByText('The alternative has lower critical gap impact.')).toBeVisible()
+  await expect(card.locator('.gain-list')).toBeVisible()
+})

@@ -17,11 +17,58 @@
   атомарность, точные повторы пропускаются. Новые профили сразу доступны HR и движку.
 - Запуск собранного приложения и API одной командой на одном порту.
 
-**В этой ветке подключён расчётный mock-адаптер, а не LLM.** Он применяет правила
-`gain/max_level` к завершённому обучению после оценки. Рекомендации идут в порядке
-каталога, без многофакторного ранжирования. Общий процент прогресса неизвестен (`null`).
-Реальный AI-движок подключается через `create_app(settings, engine=...)`; его каталог
-`backend/app/engine/` оставлен участнику AI.
+## AI Engine and integration status
+
+The deterministic AI Engine is implemented and frozen in `backend/app/engine/`.
+**FastAPI now defaults to RealAIEngineAdapter. The frozen AI Engine supplies
+recommendations, current skills, trajectory and Digital Twin calculations.**
+
+- Reconstructs current skills from the snapshot at `last_review_date`, applying
+  completed post-review activity gains with `max_level` caps without reducing higher skills.
+- Analyzes next-grade requirements, mapped career targets, skill gaps and criticality.
+- Filters by role, grade, prerequisites, availability and completed non-repeatable events.
+- Uses deterministic multifactor ranking with exact `score_breakdown`; participation
+  history modifies ranking rather than automatically vetoing a useful activity.
+- Career Digital Twin simulates skill changes and readiness before/after each candidate.
+- WHY THIS / WHY NOT compares verified alternatives; Recommendation Critic checks
+  independent evidence categories.
+- Optional OpenAI explanations receive verified facts only. Missing SDK/key, API
+  failures, timeouts or invalid output retain deterministic explanations and selection.
+- Public Python entry point: `from backend.app.engine import recommend`.
+- AI, jury/adversarial, review-date and JSON-serialization tests live in `tests/`.
+
+MockEngine reconstructs skills and simulates catalog gains, but returns activities
+in catalog order, without AI ranking. Its scores and readiness percentages are null.
+The UI shows WHY THIS / WHY NOT, expected readiness before/after and skill gains.
+The HTTP response also preserves explanation_source, explanation, expected impact
+and caution. Internal Critic and full score breakdown remain in the Python contract.
+Readiness measures target skill coverage, not a guarantee of promotion.
+
+## Project structure
+
+```text
+backend/app/
+  main.py, config.py, schemas.py       # FastAPI and HTTP/Pydantic models
+  auth.py, manage_users.py             # employee/HR access and accounts
+  storage.py, import_dataset.py        # SQLite and initial dataset import
+  hr.py, jury_import.py                # HR analytics and additive JSON/CSV import
+  engine_port.py, mock_engine.py       # protocol and explicit emergency fallback
+  real_ai_engine_adapter.py            # default application-to-AI boundary
+  engine/                             # frozen AI, Digital Twin, Critic, optional LLM
+backend/tests/                        # application tests
+frontend/src/                         # React employee and HR screens
+frontend/tests/                       # Playwright browser tests
+tests/                                # AI Engine tests
+docs/                                 # HTTP/Python contracts, examples, scoring
+scripts/start.py, start.sh             # install, build, initialize and serve
+data/private/                         # local dataset, SQLite, access files; ignored
+requirements.txt, pyproject.toml       # backend dependencies and test configuration
+frontend/package.json                 # frontend dependencies and scripts
+```
+
+The one-command launcher currently uses Bash and `.venv/bin/python` (Unix).
+On native Windows use manual startup with `.venv/Scripts/python.exe`; launcher
+portability has not been implemented.
 
 ## Запуск одной командой
 
@@ -80,9 +127,14 @@ Swagger — **http://127.0.0.1:8000/docs**. Остановка — **Ctrl+C**.
 | `CQ_CORS_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` |
 | `CQ_SERVE_FRONTEND` | `0`; launcher устанавливает `1` после сборки |
 
-Внешний LLM пока не подключён. Будущие ключи передавайте только серверу через `CQ_`
-переменные. Не используйте `VITE_` для секретов: такие переменные попадают в
-[клиентскую сборку Vite](https://vite.dev/guide/env-and-mode#env-variables).
+The standalone AI explainer expects `OPENAI_API_KEY` in the server process environment.
+The launcher accepts `CQ_*` and `OPENAI_API_KEY` assignments in its local `.env`.
+OPENAI_* values are excluded from the frontend build environment. Direct Uvicorn/CLI and the engine
+do not load `.env`. Never put secrets in `VITE_*`, source code, logs or Git.
+Default: `CQ_USE_LLM=0`. Set `CQ_USE_LLM=1` for optional explanations; no key is required
+for operation, and failures keep real deterministic recommendations. HR bulk calculations
+always disable LLM. The SDK is included in requirements.txt; standalone installation:
+`python -m pip install -r backend/app/engine/requirements-llm.txt`.
 Launcher исключает `CQ_` и `VITE_` переменные окружения из процесса сборки.
 `.env`, SQLite, локальные пароли и загруженные данные исключены из Git.
 Веб-сервер раздаёт только `frontend/dist`, а не корень проекта.
@@ -154,11 +206,9 @@ npm run dev --prefix frontend
 ```
 
 Кабинет — **http://127.0.0.1:5173**, Vite проксирует `/api` на `8000`.
-В текущем рабочем окружении эти процессы работают как пользовательские службы
-`career-quest-api` и `career-quest-frontend`; автозапуск после перезагрузки не настроен.
-Их можно проверить/остановить через `systemctl --user status/stop <имя>`.
-Локальные ранее созданные аккаунты находятся в `data/private/local-access.json`.
-Для отдельной проверки launcher используйте `--port 8010`, пока порт 8000 занят.
+Optional user services career-quest-api and career-quest-frontend may exist on
+the teammate's machine; they are not assumed on other machines. Where configured,
+inspect them with `systemctl --user status <name>`.
 
 Токен хранится только в памяти браузера. Перезагрузка страницы требует нового входа;
 401 очищает сессию, выход отзывает токен. Swagger: вызовите `/api/v1/auth/login`,
@@ -178,7 +228,9 @@ npm run dev --prefix frontend
 ## Проверки
 
 ```bash
-.venv/bin/python -m pytest -q
+.venv/bin/python -m pytest backend/tests -q
+.venv/bin/python -B -m unittest discover -s tests -q
+.venv/bin/python -m backend.app.engine --dataset data/private/career_quest_dataset --employees E0002
 npm run build --prefix frontend
 cd frontend
 npx playwright install chromium
@@ -189,7 +241,47 @@ npm test
 одновременные записи, навыки после выполнения, отдельные сессии клуба и статистику HR.
 Браузерные тесты используют Vite на 5174 и независимые ответы API: кабинет,
 рекомендации, симуляция, повтор выполнения с прежним ключом, импорт, HR и мобильный экран.
-Сквозной сценарий с настоящим API и собранным интерфейсом также проверен на отдельной БД.
+Legacy mock checks and new real-adapter integration checks are separate. Final defense E2E,
+defense-scenario validation and README verification/submission remain pending.
 
 [Контракт API/движка](docs/api-contract.md) · [Mock-примеры](docs/examples/) ·
 [Особенности датасета](docs/dataset-notes.md) · [План команды](docs/work-plan.md).
+
+## Manual setup and standalone AI verification
+
+Place the four original dataset files in `data/private/career_quest_dataset`, or pass
+their actual directory to the importer. Do not modify the original dataset.
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+npm ci --prefix frontend
+.venv/bin/python -m backend.app.import_dataset data/private/career_quest_dataset
+.venv/bin/python -m backend.app.manage_users create hr --role hr
+.venv/bin/python -m backend.app.manage_users create employee1 --role employee --employee-id E0001
+```
+
+On Windows create the environment with `python -m venv .venv`, then substitute
+`.venv/Scripts/python.exe` for `.venv/bin/python` in all backend commands.
+Use the same CQ_DB_PATH for import, account management and server startup.
+
+Run both Python suites explicitly: default pytest configuration selects backend tests.
+Validation: 137 Python tests passed (48 AI, 89 application/integration), plus 200
+dataset subtests; all 200 profiles also passed adapter consistency checks. Frontend
+build and 15 browser tests passed. Browser tests use API fixtures; the separate final
+defense scenario with a live browser/server remains to be verified.
+
+[AI scoring and fallback](docs/scoring-and-explanations.md) |
+[Complete Python response example](docs/integration-example.json).
+
+## Integration date semantics
+
+The adapter copies JSON-mode application data. For completed self-paced activities,
+completed_at replaces enrollment date only in the engine input copy. Missing completion
+dates retain the dataset proxy and warning. Scheduled session identity is never moved:
+if a scheduled completed_at differs from its session date, AI calls return HTTP 422
+with scheduled_completion_date_mismatch. Such imported records require reconciliation;
+the engine has a single history-date field. Original SQLite records remain unchanged.
+Completed club sessions are removed from copied availability before recommendation.
+Simulation and completion can still develop skills after target readiness reaches 100;
+recommendations retain the frozen gap-closing selection rules.
