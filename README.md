@@ -3,6 +3,23 @@
 Проект команды **Raknihc** для HackAlem AI, кейс АО «Народный Банк Казахстана».
 Ветка приложения — `feat/app-ui`. FastAPI + SQLite, React + TypeScript + Vite.
 
+## Demo accounts
+
+These are **synthetic/local hackathon demo credentials**, provided for judges to
+sign in to the prepared local application. They are not production credentials.
+These accounts belong to the prepared demo database; a fresh installation creates
+its own accounts and does not automatically receive these passwords.
+
+| Account | Username | Password |
+| --- | --- | --- |
+| Employee E0001 | `employee1` | `6jrzBbFOxf91YqFj8jmfRvtC` |
+| Employee E0002 | `employee2` | `oX2QTK93SSWnuiZqb4RKqjdU` |
+| HR | `hr` | `vumXwTTkzgVqBaZaU1IIeiAg` |
+
+Application: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+Swagger: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
 ## Что работает
 
 - Вход, отзывные сессии и серверные права сотрудник/HR. Сотрудник видит только свои данные.
