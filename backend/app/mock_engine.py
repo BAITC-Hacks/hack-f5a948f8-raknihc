@@ -1,12 +1,40 @@
 """Honest UI stub: no skill reconstruction, gains, scoring, or LLM calls."""
 from .engine_port import DomainError
-from .schemas import ActivityRequest, EngineContext, Event, Recommendation, RecommendationResponse, SimulationResponse
+from .schemas import (ActivityRequest, EngineContext, Event, Recommendation, RecommendationResponse,
+                      SimulationResponse, SkillRequirement, TrajectoryResponse)
 
 MESSAGE = "Mock: алгоритм AI ещё не подключён; навыки взяты из последней оценки, прогресс не рассчитан."
 
 
 class MockEngine:
     mode = "mock"
+
+    def trajectory(self, context: EngineContext) -> TrajectoryResponse:
+        profile = context.profile
+        target = profile.career_goal
+        target_profile = next((r for r in context.catalog.role_profiles if target and
+                               (r.role, r.grade) == (target.target_role, target.target_grade)), None)
+        skills = {skill.skill_id: skill for skill in context.catalog.skills}
+        requirements = []
+        if target_profile:
+            for skill_id, required_level in target_profile.required_skills.items():
+                skill = skills[skill_id]
+                current_level = profile.skills.get(skill_id, 0)
+                requirements.append(SkillRequirement(
+                    skill_id=skill_id, name=skill.name, type=skill.type,
+                    current_level=current_level, required_level=required_level,
+                    gap=max(0, required_level - current_level),
+                    critical=skill_id in target_profile.critical_skills,
+                ))
+        requirements.sort(key=lambda row: (not (row.critical and row.gap > 0), -row.gap, row.name))
+        return TrajectoryResponse(
+            employee_id=profile.employee_id, as_of_date=context.as_of_date,
+            assessed_on=profile.last_review_date, mode=self.mode, skills_basis="last_review",
+            target=target, status="target_set" if target_profile else ("no_goal" if target is None else "target_unavailable"),
+            requirements=requirements, met_count=sum(row.gap == 0 for row in requirements),
+            critical_gap_count=sum(row.critical and row.gap > 0 for row in requirements),
+            progress_pct=None, message="Сравнение с последней оценкой. Обучение после неё ещё не учтено; готовность к повышению не рассчитана.",
+        )
 
     def _eligible(self, ctx: EngineContext, event: Event) -> bool:
         profile = ctx.profile

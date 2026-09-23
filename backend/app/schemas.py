@@ -186,3 +186,54 @@ class Health(Model):
     engine_mode: Mode
     as_of_date: date
     dataset_loaded: bool
+
+
+class LoginRequest(Model):
+    username: Annotated[str, Field(min_length=1, max_length=64)]
+    password: Annotated[str, Field(min_length=1, max_length=256)]
+
+
+class User(Model):
+    user_id: Identifier
+    username: str
+    role: Literal["employee", "hr"]
+    employee_id: Identifier | None
+
+
+class LoginResponse(Model):
+    access_token: str
+    token_type: Literal["bearer"] = "bearer"
+    expires_at: datetime
+    user: User
+
+
+class HRSummary(Model):
+    employees_total: int
+    history_records_total: int
+    completed_history_total: int
+    app_completions_total: int
+
+
+class SkillRequirement(Model):
+    skill_id: Identifier
+    name: str
+    type: Literal["hard", "soft"]
+    current_level: Level
+    required_level: Level
+    gap: Level
+    critical: bool
+
+
+class TrajectoryResponse(Model):
+    employee_id: Identifier
+    as_of_date: date
+    assessed_on: date
+    mode: Mode
+    skills_basis: Literal["last_review", "current"]
+    target: CareerGoal | None
+    status: Literal["target_set", "no_goal", "target_unavailable"]
+    requirements: list[SkillRequirement]
+    met_count: int
+    critical_gap_count: int
+    progress_pct: Percent | None
+    message: str

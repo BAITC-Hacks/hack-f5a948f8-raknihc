@@ -1,16 +1,19 @@
 from contextlib import asynccontextmanager
 from typing import Annotated
 
-from fastapi import FastAPI, Header, Query, Response
+from fastapi import APIRouter, Depends, FastAPI, Header, Query, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import Settings
+from .auth import (Auth, Credentials, CurrentUser, require_hr, require_own_profile,
+                   require_profile_access, require_user)
 from .engine_port import DomainError, Engine
 from .mock_engine import MockEngine
 from .schemas import (ActivityRequest, Catalog, Completion, CompletionList, CompletionResponse,
                       Employee, EmployeePage, EventList, Health, HistoryList,
                       RecommendationResponse, SimulationResponse)
+from .schemas import HRSummary, LoginRequest, LoginResponse, User, TrajectoryResponse
 from .storage import Store
 
 
@@ -24,15 +27,41 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         store.initialize()
         yield
 
-    app = FastAPI(title="Career Quest API", version="0.1.0", lifespan=lifespan,
-                  description="Локальный backend. Движок mock; авторизация сотрудник/HR ещё не реализована.")
+    app = FastAPI(title="Career Quest API", version="0.2.0", lifespan=lifespan,
+                  description="Вход: /api/v1/auth/login. Скопируйте access_token в Authorize. Движок пока mock.")
     app.state.store, app.state.engine, app.state.settings = store, engine, settings
+    auth = app.state.auth = Auth(store, settings.session_ttl_seconds)
     app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),
-                       allow_methods=["GET", "POST"], allow_headers=["Content-Type", "Idempotency-Key"])
+                       allow_methods=["GET", "POST"], allow_headers=["Content-Type", "Idempotency-Key", "Authorization"])
+    api = APIRouter(prefix="/api/v1", dependencies=[Depends(require_user)])
+
+    @app.middleware("http")
+    async def private_responses(request, call_next):
+        response = await call_next(request)
+        if request.url.path.startswith("/api/"):
+            response.headers["Cache-Control"] = "no-store"
+        return response
 
     @app.exception_handler(DomainError)
     async def domain_error_handler(request, exc):
-        return JSONResponse(status_code=exc.status, content={"detail": {"code": exc.code, "message": exc.message}})
+        headers = {"WWW-Authenticate": "Bearer"} if exc.status == 401 else {}
+        if exc.status == 429:
+            headers["Retry-After"] = "300"
+        return JSONResponse(status_code=exc.status, headers=headers,
+                            content={"detail": {"code": exc.code, "message": exc.message}})
+
+    @app.post("/api/v1/auth/login", response_model=LoginResponse, tags=["auth"])
+    def login(body: LoginRequest):
+        return auth.login(body.username, body.password)
+
+    @api.get("/auth/me", response_model=User, tags=["auth"])
+    def me(user: CurrentUser):
+        return user
+
+    @api.post("/auth/logout", status_code=204, tags=["auth"])
+    def logout(credentials: Credentials):
+        auth.logout(credentials.credentials)
+        return Response(status_code=204)
 
     @app.get("/health", response_model=Health, tags=["system"])
     def health():
@@ -40,7 +69,7 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
             loaded = db.execute("SELECT 1 FROM metadata WHERE key='dataset_digest'").fetchone() is not None
         return Health(status="ok", engine_mode=engine.mode, as_of_date=settings.as_of_date, dataset_loaded=loaded)
 
-    @app.get("/api/v1/employees", response_model=EmployeePage, tags=["employees"])
+    @api.get("/employees", response_model=EmployeePage, tags=["employees"], dependencies=[Depends(require_hr)])
     def employees(offset: Annotated[int, Query(ge=0)] = 0, limit: Annotated[int, Query(ge=1, le=200)] = 50):
         with store.connect() as db:
             total = db.execute("SELECT COUNT(*) FROM employees").fetchone()[0]
@@ -48,23 +77,23 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
             return EmployeePage(items=[Employee.model_validate_json(r["payload"]) for r in rows],
                                 total=total, offset=offset, limit=limit)
 
-    @app.get("/api/v1/employees/{employee_id}", response_model=Employee, tags=["employees"])
+    @api.get("/employees/{employee_id}", response_model=Employee, tags=["employees"], dependencies=[Depends(require_profile_access)])
     def profile(employee_id: str):
         with store.connect() as db:
             return store.profile(db, employee_id)
 
-    @app.get("/api/v1/employees/{employee_id}/history", response_model=HistoryList, tags=["employees"])
+    @api.get("/employees/{employee_id}/history", response_model=HistoryList, tags=["employees"], dependencies=[Depends(require_profile_access)])
     def history(employee_id: str):
         with store.connect() as db:
             store.profile(db, employee_id)
             return HistoryList(items=store.history(db, employee_id))
 
-    @app.get("/api/v1/events", response_model=EventList, tags=["catalog"])
+    @api.get("/events", response_model=EventList, tags=["catalog"])
     def events():
         with store.connect() as db:
             return EventList(items=store.events(db))
 
-    @app.get("/api/v1/skills", response_model=Catalog, tags=["catalog"])
+    @api.get("/skills", response_model=Catalog, tags=["catalog"])
     def skills():
         with store.connect() as db:
             return store.catalog(db)
@@ -73,16 +102,21 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         with store.connect() as db:
             return store.context(db, employee_id, settings.as_of_date)
 
-    @app.get("/api/v1/employees/{employee_id}/recommendations", response_model=RecommendationResponse, tags=["engine"])
+    @api.get("/employees/{employee_id}/recommendations", response_model=RecommendationResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
     def recommendations(employee_id: str):
         return engine.recommend(context(employee_id))
 
-    @app.post("/api/v1/employees/{employee_id}/simulations", response_model=SimulationResponse, tags=["engine"])
+    @api.get("/employees/{employee_id}/trajectory", response_model=TrajectoryResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
+    def trajectory(employee_id: str):
+        return engine.trajectory(context(employee_id))
+
+    @api.post("/employees/{employee_id}/simulations", response_model=SimulationResponse, tags=["engine"], dependencies=[Depends(require_profile_access)])
     def simulate(employee_id: str, body: ActivityRequest):
         return engine.simulate(context(employee_id), body)
 
-    @app.post("/api/v1/employees/{employee_id}/completions", response_model=CompletionResponse,
-              status_code=201, responses={200: {"model": CompletionResponse, "description": "Idempotent replay"}}, tags=["completions"])
+    @api.post("/employees/{employee_id}/completions", response_model=CompletionResponse,
+              status_code=201, responses={200: {"model": CompletionResponse, "description": "Idempotent replay"}}, tags=["completions"],
+              dependencies=[Depends(require_own_profile)])
     def complete(employee_id: str, body: ActivityRequest, response: Response,
                  idempotency_key: Annotated[str, Header(min_length=1, max_length=128)]):
         if not idempotency_key.strip():
@@ -91,13 +125,24 @@ def create_app(settings: Settings | None = None, engine: Engine | None = None) -
         response.status_code = 200 if result.replayed else 201
         return result
 
-    @app.get("/api/v1/employees/{employee_id}/completions", response_model=CompletionList, tags=["completions"])
+    @api.get("/employees/{employee_id}/completions", response_model=CompletionList, tags=["completions"], dependencies=[Depends(require_profile_access)])
     def completions(employee_id: str):
         with store.connect() as db:
             store.profile(db, employee_id)
             rows = db.execute("SELECT payload FROM completions WHERE employee_id=? ORDER BY rowid", (employee_id,))
             return CompletionList(items=[Completion.model_validate_json(r["payload"]) for r in rows])
 
+    @api.get("/hr/summary", response_model=HRSummary, tags=["hr"], dependencies=[Depends(require_hr)])
+    def hr_summary():
+        with store.connect() as db:
+            return HRSummary(
+                employees_total=db.execute("SELECT COUNT(*) FROM employees").fetchone()[0],
+                history_records_total=db.execute("SELECT COUNT(*) FROM history").fetchone()[0],
+                completed_history_total=db.execute("SELECT COUNT(*) FROM history WHERE status='completed'").fetchone()[0],
+                app_completions_total=db.execute("SELECT COUNT(*) FROM completions").fetchone()[0],
+            )
+
+    app.include_router(api)
     return app
 
 

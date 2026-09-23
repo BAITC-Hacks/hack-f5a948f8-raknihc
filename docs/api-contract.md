@@ -24,20 +24,37 @@
 | Метод и путь | Результат |
 | --- | --- |
 | `GET /health` | Состояние БД, режим движка, дата среза |
+| `POST /api/v1/auth/login` | `{access_token, token_type, expires_at, user}`; тело `{username,password}` |
+| `GET /api/v1/auth/me` | `{user_id, username, role, employee_id}` |
+| `POST /api/v1/auth/logout` | 204, сессия отозвана |
+| `GET /api/v1/hr/summary` | Общие счётчики сотрудников, истории и выполнений; только HR |
 | `GET /api/v1/employees?offset=0&limit=50` | `{items: Employee[], total, offset, limit}` |
 | `GET /api/v1/employees/{id}` | Профиль последней оценки |
 | `GET /api/v1/employees/{id}/history` | `{items: HistoryRecord[]}` |
 | `GET /api/v1/events` | `{items: Event[]}` |
 | `GET /api/v1/skills` | Каталог навыков и требования ролей |
 | `GET /api/v1/employees/{id}/recommendations` | `RecommendationResponse` |
+| `GET /api/v1/employees/{id}/trajectory` | `TrajectoryResponse`: требования цели и дефициты, доступ как к профилю |
 | `POST /api/v1/employees/{id}/simulations` | `SimulationResponse`; тело `{event_id, session_date?: date}` |
 | `POST /api/v1/employees/{id}/completions` | `CompletionResponse`; тело как у симуляции, обязателен заголовок `Idempotency-Key` |
 | `GET /api/v1/employees/{id}/completions` | `{items: Completion[]}` |
 
 Пагинация сотрудников: limit 1–200, offset >= 0. Неизвестные поля входных
 моделей запрещены. Ошибки: `{detail: {code, message}}`; ошибки схемы FastAPI —
-стандартный `detail[]` и HTTP 422. Неизвестный сотрудник/мероприятие — 404,
+стандартный `detail[]` и HTTP 422. Неизвестный доступный сотрудник/мероприятие — 404,
 невозможное выполнение/повтор — 409, недоступный движок — 503.
+
+Все `/api/v1` маршруты, кроме `/auth/login`, требуют `Authorization: Bearer <token>`.
+Нет действующей сессии — 401; нет прав — 403; превышен лимит входа — 429.
+Сотрудник читает/симулирует/выполняет только свой профиль. Подмена ID в URL
+блокируется до чтения данных и вызова движка (включая несуществующий чужой ID).
+HR читает все профили и симулирует активности, но завершает только свои, если
+его учётная запись привязана к профилю. Список сотрудников и `/hr/summary` — только HR.
+Каталоги доступны обеим ролям. [Полная матрица прав](access-control.md).
+
+Токены непрозрачные, живут по реальному UTC-времени. Frontend отправляет их
+в заголовке, сервер не использует авторизационные cookies. Поля роли и employee_id
+во входном теле login запрещены; права берутся из SQLite при каждом запросе.
 
 Первое выполнение — HTTP 201, повтор того же ключа и тела — HTTP 200 и
 сохранённый результат (`replayed: true`). Тот же ключ с другим телом — 409.
@@ -53,6 +70,7 @@
 
 - `recommend(context: EngineContext) -> RecommendationResponse`
 - `simulate(context: EngineContext, request: ActivityRequest) -> SimulationResponse`
+- `trajectory(context: EngineContext) -> TrajectoryResponse`
 
 `EngineContext`: `profile`, `history`, `events`, `catalog`, `as_of_date`.
 Реальная реализация живёт в `backend/app/engine/`, приложение подключает её
@@ -70,6 +88,18 @@
 вместе с `completion_id`, `employee_id`, `event_id`, `session_date`,
 `completed_on`, `created_at`, `history_record_id`.
 
+`TrajectoryResponse`: `employee_id`, `as_of_date`, `assessed_on`, `mode`,
+`skills_basis` (`last_review`/`current`), `target` (CareerGoal или null),
+`status` (`target_set`/`no_goal`/`target_unavailable`), `requirements[]`,
+`met_count`, `critical_gap_count`, `progress_pct`, `message`.
+Каждое требование содержит `skill_id`, `name`, `type`, `current_level`,
+`required_level`, `gap`, `critical`. Mock сравнивает последнее оценивание с
+требованиями явно заданной цели: отсутствие навыка — 0, gap не ниже 0.
+Это отдельные дефициты по оценке, а не восстановленные текущие навыки или
+процент готовности. При отсутствии цели следующий грейд не выдумывается.
+При смене роли сравнение идёт с целевой ролью; отсутствующий профиль требований
+даёт `target_unavailable`. Все расчёты остаются в адаптере движка, не в React.
+
 ## Поведение mock
 
 `mode: mock` виден во всех ответах движка и сохранённых результатах.
@@ -82,7 +112,8 @@
 
 ## Граница текущего этапа
 
-Авторизация сотрудник/HR, UI и HTTP-импорт — следующие задачи. Сейчас API
-предназначен для локальной разработки и запускается на `127.0.0.1`.
-Открывать этот backend публично до реализации разграничения доступа нельзя.
+Авторизация сотрудник/HR и кабинет сотрудника реализованы. UI рекомендаций,
+симуляции и HR, а также HTTP-импорт — следующие задачи.
+Сейчас API предназначен для локальной разработки и запускается на `127.0.0.1`.
+Для использования токенов через интернет необходим HTTPS.
 Доска планирования — отдельный сервис и к этому API не относится.
