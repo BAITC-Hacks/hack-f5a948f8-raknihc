@@ -1,0 +1,73 @@
+{
+  "employee_id": "E0001",
+  "as_of_date": "2026-10-01",
+  "mode": "mock",
+  "current_skills": {
+    "SK_PYTHON": 3,
+    "SK_SQL": 2,
+    "SK_API_DESIGN": 2,
+    "SK_SYSTEM_DESIGN": 1,
+    "SK_CLOUD": 1,
+    "SK_CONTAINERS": 0,
+    "SK_CICD": 1,
+    "SK_APP_SECURITY": 0,
+    "SK_OBSERVABILITY": 0,
+    "SK_COMMUNICATION": 2,
+    "SK_PUBLIC_SPEAKING": 0,
+    "SK_WRITTEN_COMMUNICATION": 3,
+    "SK_STAKEHOLDER_MGMT": 1,
+    "SK_LEADERSHIP": 1,
+    "SK_MENTORING": 0,
+    "SK_FEEDBACK": 2,
+    "SK_CONFLICT_RESOLUTION": 3,
+    "SK_TEAMWORK": 2,
+    "SK_EMOTIONAL_INTELLIGENCE": 2,
+    "SK_PROBLEM_SOLVING": 2,
+    "SK_CRITICAL_THINKING": 3,
+    "SK_TIME_MANAGEMENT": 2,
+    "SK_ADAPTABILITY": 2
+  },
+  "progress_pct": null,
+  "items": [
+    {
+      "event_id": "EV_005",
+      "title": "System Design Fundamentals",
+      "format": "online",
+      "duration_hours": 16.0,
+      "session_date": "2026-11-23",
+      "reasons": [
+        "Роль и грейд входят в целевую аудиторию.",
+        "Предварительные требования соблюдены по последней оценке.",
+        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+      ],
+      "score": null
+    },
+    {
+      "event_id": "EV_012",
+      "title": "Advanced Python",
+      "format": "self_paced",
+      "duration_hours": 24.0,
+      "session_date": null,
+      "reasons": [
+        "Роль и грейд входят в целевую аудиторию.",
+        "Предварительные требования соблюдены по последней оценке.",
+        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+      ],
+      "score": null
+    },
+    {
+      "event_id": "EV_019",
+      "title": "API & Performance Testing Workshop",
+      "format": "offline",
+      "duration_hours": 8.0,
+      "session_date": "2026-10-16",
+      "reasons": [
+        "Роль и грейд входят в целевую аудиторию.",
+        "Предварительные требования соблюдены по последней оценке.",
+        "Мероприятие добровольное; выполнение этой активности или сессии не зарегистрировано."
+      ],
+      "score": null
+    }
+  ],
+  "message": "Mock: алгоритм AI ещё не подключён; навыки взяты из последней оценки, прогресс не рассчитан."
+}
