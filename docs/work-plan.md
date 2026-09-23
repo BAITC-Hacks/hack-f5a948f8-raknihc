@@ -1,57 +1,64 @@
-# План реализации Career Quest
+# Career Quest work plan
 
-Статус: начата реализация. В `feat/app-ui` готов локальный FastAPI/SQLite backend,
-импорт стартового датасета, API профилей/истории/выполнений и mock-движок.
-Контракт v1 описан в `docs/api-contract.md`; требуется сверка с участником AI engine.
-Frontend, реальный AI, права сотрудник/HR и HR-экран остаются в плане.
+Status: AI Engine implemented and frozen; FastAPI/SQLite backend implemented with a
+mock engine. Full application/AI integration is still pending.
 
-## Участник 1 — AI engine
+## Participant 1 - AI Engine
 
-Ветка: `feat/ai-engine`. Владение: `backend/app/engine/`, тесты движка и документация алгоритма.
+Ownership: backend/app/engine/, tests/ and algorithm documentation; feat/ai-engine.
 
-- Загрузка и проверка схемы датасета.
-- Восстановление навыков с учётом даты последней оценки.
-- Требования следующего грейда, критические навыки и дефициты.
-- Фильтрация допустимых активностей и многофакторное ранжирование.
-- LLM-объяснение с проверкой фактов и идентификаторов.
-- Симуляция изменения навыков после активности.
-- Проверка на новых профилях и сложных историях участия.
+- [x] Dataset analysis, relationships, constraints and documented ambiguities.
+- [x] JSON/CSV loading and Python support for new profiles in the supported schema.
+- [x] Current-skill reconstruction using last_review_date, gain and max_level.
+- [x] Gap analysis, critical skills, next grade and mapped career goals.
+- [x] Candidate filtering: role, grade, prerequisites, availability and completion history.
+- [x] Multifactor ranking and score_breakdown.
+- [x] Career Digital Twin with skills/readiness before-after simulation.
+- [x] WHY THIS / WHY NOT and Recommendation Critic.
+- [x] Optional LLM explanation with deterministic fallback.
+- [x] Jury/adversarial tests, date-boundary tests and JSON-serializable recommend entry point.
+- [ ] Full input-schema validation at the engine boundary; existing checks are partial.
 
-## Участник 2 — приложение
+AI suite: 48 tests passed before documentation-conflict resolution. No algorithm changes
+without agreement. Recommendations do not persist activity completions.
 
-Ветка: `feat/app-ui`. Владение: FastAPI, SQLite, `frontend/`, запуск и документация интерфейса.
+## Participant 2 - application layer
 
-- API и хранение профилей, истории и результатов выполнения.
-- Серверное разграничение доступа сотрудник/HR.
-- Кабинет сотрудника, траектория и карточки рекомендаций.
-- Выполнение активности с защитой от повторного начисления.
-- HR-экран и импорт JSON/CSV.
-- Состояния загрузки, ошибок и отсутствия рекомендаций.
-- Запуск одной командой.
+Ownership: FastAPI, SQLite, future frontend, HTTP contract, access control and startup.
+feat/app-ui is already included in main.
 
-## Граница интеграции
+- [x] FastAPI profile, history, catalog, mock recommendation, simulation and completion endpoints.
+- [x] SQLite storage of profiles, catalog, history and completion results.
+- [x] Validated transactional CLI import of the starter dataset.
+- [x] Idempotent completion and protection from duplicate/concurrent writes.
+- [x] Engine Protocol, mock and fresh database context for each engine call.
+- [x] Backend tests for imports, API errors, restart persistence and concurrency.
+- [ ] Real engine adapter and end-to-end HTTP progress updates.
+- [ ] React/frontend: employee view, trajectory, cards, loading/error/empty states.
+- [ ] HR dashboard and aggregates.
+- [ ] Server-side employee/HR access control.
+- [ ] Import of additional jury profiles/history into an existing database through the application.
+- [ ] One-command startup of the complete solution.
 
-Первая версия входных и выходных схем зафиксирована в `docs/api-contract.md` и
-`backend/app/schemas.py`; адаптер движка — `backend/app/engine_port.py`.
+CLI import into a new database is not completed jury import. Mock simulation does not
+award skill gains or prove an integrated AI completion flow.
 
-Движок получает профиль, историю, каталог мероприятий, каталог навыков и расчётную дату аргументами. Это позволяет работать с импортированными данными без изменения исходных файлов. Сохранением управляет приложение. Формулы роста навыков и расчёта прогресса находятся только в движке.
+## Integration boundary
 
-Frontend начинает с согласованных mock-ответов, использующих реальные идентификаторы и названия мероприятий. В течение первого часа разработки соединяем API с минимальным движком.
+Both contracts are preserved in docs/api-contract.md: HTTP API and Python AI Engine.
+The application expects Engine.recommend(context), while the engine exposes recommend
+with employee/history/events/catalog/as_of_date arguments. An application-layer adapter
+is required and is not part of this documentation resolution.
 
-## Порядок приоритетов
+The engine owns skill/readiness calculations. The application owns database writes,
+transactions, idempotency, selected sessions and authorization. Date/completed_at
+semantics require integration tests. Initial integration uses use_llm=False.
 
-1. Контракт и минимальный сквозной сценарий.
-2. Корректные навыки, дефициты и объяснимые рекомендации.
-3. Выполнение, HR, права и импорт проверочных профилей.
-4. Проверка полного сценария, README и воспроизводимый запуск.
-5. Дополнительные механики — только после обязательной части.
+## Next steps and acceptance criteria
 
-## Приёмка
-
-- Произвольный, в том числе импортированный сотрудник открывается в приложении.
-- Рекомендация учитывает минимум три фактора и не предлагает недоступные мероприятия.
-- Выполнение обновляет прогресс, повторный запрос не начисляет прирост второй раз.
-- Если следующего шага нет, отображается причина.
-- HR видит дефициты и статистику участия.
-- Сотрудник не получает доступ к чужим данным через API.
-- README описывает фактическую реализацию, ограничения и повторяемый сценарий проверки.
+1. Agree the HTTP/Python mapping and implement the adapter outside the frozen engine.
+2. Verify profile -> recommendation -> simulation -> completion -> refreshed progress.
+3. Test no double gains, session dates, self_paced and empty recommendation responses.
+4. Add employee UI, HR, access control and jury import; test denial of other employees' data.
+5. Run both test suites and document reproducible complete startup.
+6. Add optional mechanics only after the mandatory scenario works.

@@ -1,0 +1,96 @@
+{
+  "employee_id": "E0002",
+  "current_grade": "Middle",
+  "target": {
+    "role": "Backend Engineer",
+    "grade": "Senior"
+  },
+  "next_grade": {
+    "role": "Backend Engineer",
+    "grade": "Senior"
+  },
+  "readiness_before": 62.0,
+  "recommendations": [
+    {
+      "event_id": "EV_005",
+      "title": "System Design Fundamentals",
+      "final_score": 5.408333,
+      "score_breakdown": {
+        "gap_impact": 2,
+        "critical_gap_impact": 4,
+        "history_modifier": -1.0,
+        "career_goal_modifier": 0.333333,
+        "efficiency_modifier": 0.075,
+        "final_score": 5.408333
+      },
+      "skill_impacts": [
+        {
+          "skill_id": "SK_API_DESIGN",
+          "before": 1,
+          "after": 2,
+          "gain": 1
+        },
+        {
+          "skill_id": "SK_SYSTEM_DESIGN",
+          "before": 1,
+          "after": 2,
+          "gain": 1
+        }
+      ],
+      "readiness_after": 66.0,
+      "why_this": "SK_API_DESIGN: 1 → 2 / 4; SK_SYSTEM_DESIGN: 1 → 2 / 4. Критический вклад: 4; поправка истории: -1.0.",
+      "why_not": "EV_036: score 1.266667 против 5.408333. Разница: gap_impact +1, critical_gap_impact +4, history_modifier -1, career_goal_modifier +0.166666, efficiency_modifier -0.025.",
+      "alternative_event_id": "EV_036",
+      "critic": {
+        "passed": true,
+        "evidence_categories": [
+          {
+            "category": "eligibility_prerequisites_availability",
+            "status": "verified",
+            "independence_group": "eligibility"
+          },
+          {
+            "category": "requirement_skill_gap",
+            "status": "verified",
+            "independence_group": "target_fit"
+          },
+          {
+            "category": "criticality_or_career_relevance",
+            "status": "verified",
+            "independence_group": "target_fit"
+          },
+          {
+            "category": "participation_history",
+            "status": "verified",
+            "independence_group": "participation"
+          },
+          {
+            "category": "actual_event_gain",
+            "status": "verified",
+            "independence_group": "activity_impact"
+          }
+        ],
+        "warnings": [],
+        "independent_factors": [
+          "eligibility",
+          "target_fit",
+          "participation",
+          "activity_impact"
+        ],
+        "factor_count": 4,
+        "errors": [],
+        "history_evidence_available": true
+      },
+      "explanation": "Следующий шаг: System Design Fundamentals.",
+      "explanation_source": "deterministic",
+      "fallback_reason": "disabled",
+      "expected_career_impact": "Соответствие цели Backend Engineer / Senior: 62.0% → 66.0%.",
+      "caution": "Есть пропуски/отказы похожих активностей; стоит уточнить удобный формат."
+    }
+  ],
+  "no_recommendation_reason": null,
+  "warnings": [
+    "Completion date unavailable; enrollment date used: R000814",
+    "Completion date unavailable; enrollment date used: R002095"
+  ]
+}
