@@ -1,8 +1,7 @@
 # Career Quest work plan
 
 Both participants' components are implemented. The AI Engine is frozen; FastAPI
-currently uses MockEngine. RealAIEngineAdapter and final integrated acceptance
-remain pending. Application status reflects commit 653c6a3.
+now uses RealAIEngineAdapter. Final defense acceptance remains pending. Application status reflects commit 653c6a3.
 
 ## Project setup
 
@@ -53,10 +52,10 @@ native Windows needs manual commands or a later portability fix.
 
 ## Remaining integration and acceptance
 
-- [ ] Connect FastAPI to the REAL AI Engine via RealAIEngineAdapter.
-- [ ] Map recommend(context), trajectory(context), simulate(context, request), including
+- [x] Connect FastAPI to the REAL AI Engine via RealAIEngineAdapter.
+- [x] Map recommend(context), trajectory(context), simulate(context, request), including
       current_skills, skill_changes, readiness and consistent target semantics.
-- [ ] Agree HTTP/UI exposure of WHY NOT, score_breakdown, critic and explanation_source.
+- [x] Expose WHY THIS / WHY NOT, readiness and explanation_source; keep score_breakdown/Critic in Python.
 - [ ] Validate completed_at versus original history/session date without double gains.
 - [ ] Run final integrated E2E tests with real backend, AI Engine and frontend.
 - [ ] Validate final defense scenario, including jury profiles, HR and access denial.
@@ -77,3 +76,17 @@ session selection, validation and persistence. Stored skills remain the review s
 6. Verify optional LLM failure preserves deterministic selection and explanations;
    avoid LLM calls per employee in HR aggregation.
 7. Validate the defense scenario and final README before submission.
+
+## Integration validation results
+
+- Python: 137 passed (48 frozen AI tests, 89 application/integration tests), plus
+  200 dataset subtests. All 200 profiles also pass adapter consistency validation.
+- E0002: EV_005, score 5.408333, readiness 62 -> 66.
+- Completion/replay: history grows once, stored assessment remains unchanged,
+  reconstructed skills and recommendations recalculate; repeated key replays the result.
+- Frontend: production build passed; 15 Playwright scenarios passed, including AI cards.
+- Frozen backend/app/engine/ has no changes. No commit or push performed.
+
+The separate final defense scenario, real-browser/live-server E2E and submission
+verification remain pending. Scheduled completion-date mismatches return explicit
+422 rather than guessing dates; native Windows launcher portability remains pending.

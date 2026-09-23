@@ -35,6 +35,7 @@ export interface Requirement {
   gap: number; critical: boolean
 }
 export interface Trajectory {
+  target_source?: 'explicit' | 'automatic' | null
   current_skills?: Record<string, number>
   employee_id: string; as_of_date: string; assessed_on: string; mode: 'mock' | 'live'
   skills_basis: 'last_review' | 'current'; target: Employee['career_goal']
@@ -52,6 +53,10 @@ export interface PreviewBasis {
   is_fallback: boolean; fallback_reason: string | null; message: string
 }
 export interface Recommendation {
+  readiness_before?: number | null; readiness_after?: number | null
+  explanation?: string | null; why_this?: string | null; why_not?: string | null
+  expected_career_impact?: string | null; caution?: string | null
+  explanation_source?: 'llm' | 'deterministic' | null
   event_id: string; title: string; format: Activity['format']; duration_hours: number
   session_date: string | null; reasons: string[]; score: number | null; skill_changes: SkillChange[]
 }

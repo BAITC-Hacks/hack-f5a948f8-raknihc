@@ -122,6 +122,14 @@ class SkillChange(Model):
 
 
 class Recommendation(Model):
+    readiness_before: Percent | None = None
+    readiness_after: Percent | None = None
+    explanation: str | None = None
+    why_this: str | None = None
+    why_not: str | None = None
+    expected_career_impact: str | None = None
+    caution: str | None = None
+    explanation_source: Literal["llm", "deterministic"] | None = None
     event_id: Identifier
     title: str
     format: Literal["online", "offline", "self_paced"]
@@ -133,6 +141,7 @@ class Recommendation(Model):
 
 
 class RecommendationResponse(Model):
+    readiness_before: Percent | None = None
     employee_id: Identifier
     as_of_date: date
     mode: Mode
@@ -297,6 +306,7 @@ class SkillRequirement(Model):
 
 
 class TrajectoryResponse(Model):
+    target_source: Literal["explicit", "automatic"] | None = None
     current_skills: dict[str, Level] = Field(default_factory=dict)
     employee_id: Identifier
     as_of_date: date

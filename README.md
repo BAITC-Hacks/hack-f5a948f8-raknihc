@@ -20,8 +20,8 @@
 ## AI Engine and integration status
 
 The deterministic AI Engine is implemented and frozen in `backend/app/engine/`.
-**FastAPI still defaults to MockEngine. RealAIEngineAdapter is the remaining
-integration step; real AI is not yet connected to the application.**
+**FastAPI now defaults to RealAIEngineAdapter. The frozen AI Engine supplies
+recommendations, current skills, trajectory and Digital Twin calculations.**
 
 - Reconstructs current skills from the snapshot at `last_review_date`, applying
   completed post-review activity gains with `max_level` caps without reducing higher skills.
@@ -39,8 +39,9 @@ integration step; real AI is not yet connected to the application.**
 
 MockEngine reconstructs skills and simulates catalog gains, but returns activities
 in catalog order, without AI ranking. Its scores and readiness percentages are null.
-The UI already shows reasons and skill gains; full counterfactual WHY NOT, score
-breakdown, Critic and explanation source still require integration mapping.
+The UI shows WHY THIS / WHY NOT, expected readiness before/after and skill gains.
+The HTTP response also preserves explanation_source, explanation, expected impact
+and caution. Internal Critic and full score breakdown remain in the Python contract.
 Readiness measures target skill coverage, not a guarantee of promotion.
 
 ## Project structure
@@ -51,7 +52,8 @@ backend/app/
   auth.py, manage_users.py             # employee/HR access and accounts
   storage.py, import_dataset.py        # SQLite and initial dataset import
   hr.py, jury_import.py                # HR analytics and additive JSON/CSV import
-  engine_port.py, mock_engine.py       # application protocol and current default
+  engine_port.py, mock_engine.py       # protocol and explicit emergency fallback
+  real_ai_engine_adapter.py            # default application-to-AI boundary
   engine/                             # frozen AI, Digital Twin, Critic, optional LLM
 backend/tests/                        # application tests
 frontend/src/                         # React employee and HR screens
@@ -126,10 +128,12 @@ Swagger — **http://127.0.0.1:8000/docs**. Остановка — **Ctrl+C**.
 | `CQ_SERVE_FRONTEND` | `0`; launcher устанавливает `1` после сборки |
 
 The standalone AI explainer expects `OPENAI_API_KEY` in the server process environment.
-The launcher accepts only `CQ_*` assignments in its local `.env`; adding
-`OPENAI_API_KEY` there currently fails validation. Direct Uvicorn/CLI and the engine
+The launcher accepts `CQ_*` and `OPENAI_API_KEY` assignments in its local `.env`.
+OPENAI_* values are excluded from the frontend build environment. Direct Uvicorn/CLI and the engine
 do not load `.env`. Never put secrets in `VITE_*`, source code, logs or Git.
-Initial real-engine integration must use `use_llm=False`. Optional explanation SDK:
+Default: `CQ_USE_LLM=0`. Set `CQ_USE_LLM=1` for optional explanations; no key is required
+for operation, and failures keep real deterministic recommendations. HR bulk calculations
+always disable LLM. The SDK is included in requirements.txt; standalone installation:
 `python -m pip install -r backend/app/engine/requirements-llm.txt`.
 Launcher исключает `CQ_` и `VITE_` переменные окружения из процесса сборки.
 `.env`, SQLite, локальные пароли и загруженные данные исключены из Git.
@@ -237,7 +241,7 @@ npm test
 одновременные записи, навыки после выполнения, отдельные сессии клуба и статистику HR.
 Браузерные тесты используют Vite на 5174 и независимые ответы API: кабинет,
 рекомендации, симуляция, повтор выполнения с прежним ключом, импорт, HR и мобильный экран.
-Application checks above use the mock engine. Final real-AI integrated E2E tests,
+Legacy mock checks and new real-adapter integration checks are separate. Final defense E2E,
 defense-scenario validation and README verification/submission remain pending.
 
 [Контракт API/движка](docs/api-contract.md) · [Mock-примеры](docs/examples/) ·
@@ -262,9 +266,22 @@ On Windows create the environment with `python -m venv .venv`, then substitute
 Use the same CQ_DB_PATH for import, account management and server startup.
 
 Run both Python suites explicitly: default pytest configuration selects backend tests.
-The AI suite previously passed 48 tests; full-dataset validation requires local data.
-Tests were not rerun during this documentation resolution. These component checks do
-not establish final real-AI integration.
+Validation: 137 Python tests passed (48 AI, 89 application/integration), plus 200
+dataset subtests; all 200 profiles also passed adapter consistency checks. Frontend
+build and 15 browser tests passed. Browser tests use API fixtures; the separate final
+defense scenario with a live browser/server remains to be verified.
 
 [AI scoring and fallback](docs/scoring-and-explanations.md) |
 [Complete Python response example](docs/integration-example.json).
+
+## Integration date semantics
+
+The adapter copies JSON-mode application data. For completed self-paced activities,
+completed_at replaces enrollment date only in the engine input copy. Missing completion
+dates retain the dataset proxy and warning. Scheduled session identity is never moved:
+if a scheduled completed_at differs from its session date, AI calls return HTTP 422
+with scheduled_completion_date_mismatch. Such imported records require reconciliation;
+the engine has a single history-date field. Original SQLite records remain unchanged.
+Completed club sessions are removed from copied availability before recommendation.
+Simulation and completion can still develop skills after target readiness reaches 100;
+recommendations retain the frozen gap-closing selection rules.

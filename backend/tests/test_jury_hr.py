@@ -109,7 +109,7 @@ def test_completion_updates_skills_once_and_club_sessions_accumulate(client, set
     base = '/api/v1/employees/TEST_2'
     assert client.post(base + '/completions', json={'event_id': 'EV_036', 'session_date': '2026-10-01'}, headers={'Idempotency-Key': 'club1'}).status_code == 201
     assert client.get(base + '/trajectory').json()['current_skills'] == {'SK_TEST': 2}
-    with TestClient(create_app(replace(settings, as_of_date=date(2026, 10, 8)))) as later:
+    with TestClient(create_app(replace(settings, as_of_date=date(2026, 10, 8)), engine=MockEngine())) as later:
         sign_in(later, 'employee2')
         assert later.post(base + '/completions', json={'event_id': 'EV_036', 'session_date': '2026-10-08'}, headers={'Idempotency-Key': 'club2'}).status_code == 201
         assert later.get(base + '/trajectory').json()['current_skills'] == {'SK_TEST': 3}

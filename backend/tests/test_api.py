@@ -69,7 +69,7 @@ def test_completion_replay_conflicts_and_restart(client, settings):
     assert complete(client).json() == {"completion": saved, "replayed": True}
     assert complete(client, key="different").status_code == 409
     assert complete(client, event="EV_NEXT").json()["detail"]["code"] == "idempotency_conflict"
-    with TestClient(create_app(settings)) as restarted:
+    with TestClient(create_app(settings, engine=MockEngine())) as restarted:
         sign_in(restarted)
         assert complete(restarted).json()["completion"] == saved
         assert len(restarted.get(BASE + "/completions").json()["items"]) == 1
@@ -83,7 +83,7 @@ def test_scheduled_simulation_completion_and_repeatable_club(client, settings):
     assert complete(client, "EV_036", "club1", "2026-10-01").status_code == 201
     assert complete(client, "EV_036", "club2", "2026-10-01").status_code == 409
     future = replace(settings, as_of_date=date(2026, 10, 8))
-    with TestClient(create_app(future)) as later:
+    with TestClient(create_app(future, engine=MockEngine())) as later:
         sign_in(later)
         assert complete(later, "EV_036", "club2", "2026-10-08").status_code == 201
         assert len(later.get(BASE + "/completions").json()["items"]) == 2

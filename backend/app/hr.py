@@ -18,6 +18,7 @@ def overview(store, engine, as_of_date):
             record = HistoryRecord.model_validate_json(row['payload'])
             if record.date <= as_of_date:
                 histories[record.employee_id].append(record)
+    engine = engine.for_bulk() if hasattr(engine, "for_bulk") else engine
     employees, gaps, critical = [], Counter(), Counter()
     event_histories = defaultdict(list)
     for history in histories.values():

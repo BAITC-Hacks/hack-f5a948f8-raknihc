@@ -3,7 +3,8 @@
 ## 1. HTTP API Contract
 
 Source: application contract at `653c6a3`; exact models are in
-`backend/app/schemas.py`. This section describes the current application/MockEngine.
+`backend/app/schemas.py`. The application now defaults to RealAIEngineAdapter; the retained mock behavior
+section describes the explicit emergency fallback.
 
 Статус: первая реализация для `feat/app-ui`; контракт предложен для интеграции
 с участником AI engine. Источник точных типов — `backend/app/schemas.py`,
@@ -121,8 +122,10 @@ Fallback проверяет доступность события и сесси�
 Каждое требование содержит `skill_id`, `name`, `type`, `current_level`,
 `required_level`, `gap`, `critical`. Адаптер сравнивает восстановленные по истории
 навыки с требованиями явно заданной цели: отсутствие навыка — 0, gap не ниже 0.
-`current_skills` содержит все актуальные навыки, в том числе вне цели. Общий
-процент готовности пока неизвестен. При отсутствии цели следующий грейд не выдумывается.
+`current_skills` содержит все актуальные навыки, в том числе вне цели. В MockEngine
+процент готовности неизвестен и без явной цели возвращается no_goal. RealAIEngineAdapter
+возвращает рассчитанную готовность и эффективную цель AI; если цель не выбрана
+сотрудником, target_source равен automatic и это явно отмечается в интерфейсе.
 При смене роли сравнение идёт с целевой ролью; отсутствующий профиль требований
 даёт `target_unavailable`. Все расчёты остаются в адаптере движка, не в React.
 
@@ -172,7 +175,8 @@ Fallback проверяет доступность события и сесси�
 
 Авторизация, кабинет, рекомендации, симуляция, выполнение, HR-экран и HTTP-импорт реализованы.
 Собранный интерфейс раздаётся FastAPI при `CQ_SERVE_FRONTEND=1`; launcher `./start.sh`
-собирает его и запускает API на одном порту. Дальше — интеграция с реальным AI-движком.
+собирает его и запускает API на одном порту. Реальный AI подключён через
+RealAIEngineAdapter; финальный сценарий защиты ещё требует проверки.
 Сейчас API предназначен для локальной разработки и запускается на `127.0.0.1`.
 Для использования токенов через интернет необходим HTTPS.
 Доска планирования — отдельный сервис и к этому API не относится.
@@ -357,10 +361,10 @@ empty results, null next grade, preservation of frozen ranking/score, and the fu
 
 ## 3. Integration Mapping
 
-RealAIEngineAdapter is required outside `backend/app/engine/` and is not implemented
-by this merge. The engine is frozen. The contracts above are separate interfaces.
-Inject the adapter through `create_app(settings, engine=...)`; the default remains
-MockEngine. Initial integration must use `use_llm=False`.
+RealAIEngineAdapter is implemented in `backend/app/real_ai_engine_adapter.py`.
+The engine is frozen. FastAPI defaults to this adapter with use_llm=False, configured
+by CQ_USE_LLM. Engine injection remains supported. MockEngine is an explicit emergency
+preview fallback on DomainError(503) or TimeoutError; LLM failure never triggers it.
 
 | Application / HTTP | Frozen AI / verified source | Adapter responsibility |
 | --- | --- | --- |
@@ -376,19 +380,39 @@ MockEngine. Initial integration must use `use_llm=False`.
 | `reasons[]`, `message` | `why_this`, `why_not`, `explanation`, warnings/empty reason | Preserve verified facts and a clear empty state |
 | `skills_basis`, `assessed_on` | Current reconstructed state, last_review_date | Set current basis and retain original assessment date |
 | `trajectory(context)` | Existing deterministic `analyze` state/target/gaps/readiness | Build target, requirements, met_count, critical_gap_count, current_skills and progress_pct; add catalog names/types |
-| `simulate(context, request)` | Existing `simulate(employee, history, events, catalog, as_of_date, event_id)` | Map skill/readiness before-after to SimulationResponse; add catalog names and context/session metadata |
+| `simulate(context, request)` | Frozen `digital_twin(levels, event, target, next_target, catalog)` | Validate application eligibility/session rules; map skill/readiness before-after to SimulationResponse and add context/session metadata |
 | `mode: live` | Deterministic AI with optional LLM wording | Engine mode is not explanation source; deterministic AI is still live |
 | `is_fallback`, `fallback_reason` | Application preview fallback versus AI explanation fallback | Keep separate: failed LLM wording must retain real AI calculations and selection |
 | Completion persistence | Application storage/idempotency | Save history and simulation atomically; recalculate from fresh context |
 
-The current HTTP recommendation schema does **not** expose dedicated structured
-WHY NOT (`why_not`, `alternative_event_id`), `score_breakdown`, `critic`, or
-`explanation_source`. Per-item `readiness_after` is also absent; the simulation
-response carries before/after progress. Reasons can carry text, but exposing all
-AI differentiators requires an agreed HTTP/UI extension. Do not return a raw Python
-AI response where a Pydantic HTTP response is expected.
+### Backwards-compatible real-adapter response fields
 
-### Date and target semantics requiring integration validation
+RecommendationResponse additionally has `readiness_before: number | null = null`.
+Each Recommendation additionally has:
+
+```typescript
+readiness_before: number | null; // default null
+readiness_after: number | null;  // default null
+explanation: string | null;     // default null
+why_this: string | null;        // default null
+why_not: string | null;         // default null
+expected_career_impact: string | null; // default null
+caution: string | null;         // default null
+explanation_source: "llm" | "deterministic" | null; // default null
+```
+
+Existing skill_changes, score, reasons and progress fields remain. Mock and old
+saved responses validate with defaults. TrajectoryResponse adds
+`target_source: "explicit" | "automatic" | null = null`. Real trajectory returns
+an explicit goal or the AI effective target, marked automatic when absent in the
+profile; its message and UI distinguish that from an employee-selected goal.
+
+Structured why_this/why_not, readiness before-after and skill_changes feed employee
+cards. The full score_breakdown and Critic are not exposed in the HTTP employee model;
+they remain available through the unchanged Python contract. AI explanation-source
+fallback is distinct from is_fallback, which means replacement by the mock engine.
+
+### Date and target semantics
 
 - SQLite completed_at is the effective completion date when present. Jury history
   can complete after its original date. Without completed_at, dataset date remains
@@ -411,3 +435,23 @@ valid completion/repeated completion; recalculation; no candidates; review-date
 boundaries; repeatable sessions; employee isolation and HR access. Scheduled events
 must use a valid session/calculation date for completion, not premature completion
 at the recommendation snapshot.
+
+### Implemented adapter boundary details
+
+- Inputs are detached `model_dump(mode="json")` copies. Non-completed dates stay intact.
+- Completed self-paced rows with completed_at use that date only in the copied AI input.
+  The obsolete enrollment-date warning is suppressed only for these precise records.
+- Missing completed_at preserves the source date and documented approximation.
+- Scheduled completed_at differing from the session date is explicitly rejected with
+  HTTP 422 scheduled_completion_date_mismatch; no silent session-date substitution.
+- Completed EV_036 occurrences are removed from copied upcoming_sessions before AI
+  selection, so the next usable session is selected, or the activity is unavailable.
+- Recommend calls the public frozen function once; the adapter never ranks candidates
+  or recalculates scores. State/trajectory use build_state and readiness from the engine.
+- Simulate validates application audience, prerequisites, completion and session rules,
+  then calls the frozen digital_twin. Positive gains outside target gaps remain valid
+  for simulation/completion, preserving application behavior after readiness reaches 100.
+- HR overview uses a separate adapter with use_llm=False. Individual requests cannot
+  race with a shared LLM-mode toggle.
+- Launcher accepts OPENAI_API_KEY without printing it and excludes OPENAI_* from
+  frontend build subprocesses. Normal requirements include the optional SDK.

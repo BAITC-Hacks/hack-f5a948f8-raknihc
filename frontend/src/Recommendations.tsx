@@ -126,7 +126,12 @@ export function RecommendationsView({ employeeId, token, refreshKey, onUnauthori
       <div className="recommendation-grid">{result.items.slice(0, 3).map((item, index) => <article className="recommendation-card card" key={`${item.event_id}:${item.session_date ?? ''}`}>
         <div className="recommendation-top"><span className="recommendation-number">ШАГ {String(index + 1).padStart(2, '0')}</span><span className="pill neutral">{formats[item.format]}</span></div>
         <h3>{item.title}</h3><div className="recommendation-meta"><span><Clock3 size={16} />{number.format(item.duration_hours)} ч</span><span><CalendarDays size={16} />{item.session_date ? dateLabel(item.session_date) : item.format === 'self_paced' ? 'В любое время' : 'Дата уточняется'}</span></div>
-        <div className="recommendation-reasons"><h4>Почему этот шаг</h4><ul>{item.reasons.map((reason, i) => <li key={i}><Check size={15} /><span>{reason}</span></li>)}</ul></div>
+        {item.why_this ? <div className="recommendation-reasons"><h4>WHY THIS</h4><p>{item.why_this}</p></div> :
+        <div className="recommendation-reasons"><h4>Почему этот шаг</h4><ul>{item.reasons.map((reason, i) => <li key={i}><Check size={15} /><span>{reason}</span></li>)}</ul></div>}
+        {item.why_not && <div className="recommendation-reasons"><h4>WHY NOT</h4><p>{item.why_not}</p></div>}
+        {item.readiness_before != null && item.readiness_after != null && <div className="simulation-progress"><h4>Readiness</h4><div className="progress-comparison"><span>{number.format(item.readiness_before)}%</span><ArrowRight size={20} /><strong>{number.format(item.readiness_after)}%</strong></div><p>+{number.format(item.readiness_after - item.readiness_before)} pp</p></div>}
+        {item.expected_career_impact && <p>{item.expected_career_impact}</p>}
+        {item.caution && <p className="muted">{item.caution}</p>}
         <div className="recommendation-gains"><h4>Ожидаемый прирост навыков</h4><Gains changes={item.skill_changes} /></div>
         <button className="button primary" onClick={() => setSelected(item)} aria-label={`Симулировать: ${item.title}`}><FlaskConical size={17} />Посмотреть результат<ArrowRight size={16} /></button>
       </article>)}</div><div className="basis-note"><FlaskConical size={17} /><p>Каждый шаг рассчитывается отдельно. Симуляция показывает возможный результат обучения, а не подтверждённый новый уровень.</p></div>
